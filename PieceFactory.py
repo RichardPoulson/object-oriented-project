@@ -1,6 +1,19 @@
+from CheckersPiece import *
+
 class PieceFactory():
 
-    self.pieceCollection = []
+    pieceCollection = []
+    def __init__(self):
+        pass
 
     def getPiece(self):
-        newPiece = Piece()
+        newPiece = CheckersPiece(owner='X')
+        return newPiece
+
+
+'''
+#Testing:
+pieceF = PieceFactory()
+p = pieceF.getPiece()
+print(p.getOwner())
+'''

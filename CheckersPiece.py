@@ -1,4 +1,5 @@
 from interface import implements
+from Piece import *
 
 class CheckersPiece(implements(Piece)):
 
@@ -33,7 +34,7 @@ class CheckersPiece(implements(Piece)):
     def setLocation(self, location):
         self._location = location
 
-    def movePiece(self, newSpace):
+    def movePiece(self, space):
         newSpaceOwner = newSpace.getOwner()
         if newSpaceOwner is None:
             self.setLocation(newSpace)
