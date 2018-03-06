@@ -4,11 +4,11 @@ from Piece import *
 class CheckersPiece(implements(Piece)):
 
     def __init__(self, color=None, owner=None, isKing=False, location=None):
-        self.setColor(color)
-        self.setOwner(owner)
+        self._color = color
+        self._owner = owner
         # may be a good idea to make King a separate class
-        self._isKing=False
-        self.setLocation(location)
+        self._isKing = isKing
+        self._location = location
 
     def getColor(self):
         return self._color

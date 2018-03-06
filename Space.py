@@ -7,16 +7,16 @@ class Space:
         self.icon = '-'
 
     def spaceOccupied(self):
-        return this._isOccupied
+        return self._isOccupied
 
     def getSpaceOwner(self):
-        return this._spaceOwner
+        return self._spaceOwner
 
     def setSpaceOwner(self, owner):
-        this._spaceOwner = owner
+        self._spaceOwner = owner
 
     def getLocation(self):
-        return this._location
+        return self._location
 
     def setLocation(self, newLocation):
-        this._location = newLocation
+        self._location = newLocation
