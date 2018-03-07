@@ -4,7 +4,6 @@ class GameObservable:
         self._observers = None
         self._address = None
 
-
     def addObserver(self, player):
         pass
 

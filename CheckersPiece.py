@@ -34,11 +34,11 @@ class CheckersPiece(implements(Piece)):
     def setLocation(self, location):
         self._location = location
 
-    def movePiece(self, space):
-        newSpaceOwner = newSpace.getOwner()
-        if newSpaceOwner is None:
+    def movePiece(self, oldSpace, newSpace):
+        if (newSpace.getOccupancy() == False):
+            oldSpace.setUnoccupied()
+            newSpace.setSpaceOwner(self)
             self.setLocation(newSpace)
-            newSpace.setOwner(self.getOwner())
         elif newSpaceOwner != self.getOwner():
             # jump over players piece, remove piece at that location
             return

@@ -2,5 +2,5 @@ from interface import Interface
 
 class Piece(Interface):
 
-    def movePiece(self, space):
+    def movePiece(self, oldSpace, newSpace):
         pass
