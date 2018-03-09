@@ -6,8 +6,8 @@ class PieceFactory():
     def __init__(self):
         pass
 
-    def getPiece(self, pieceOwner=None):
-        newPiece = CheckersPiece(owner=pieceOwner)
+    def getPiece(self, pieceOwner=None, pieceLocation=None):
+        newPiece = CheckersPiece(owner=pieceOwner, location=pieceLocation)
         return newPiece
 
 

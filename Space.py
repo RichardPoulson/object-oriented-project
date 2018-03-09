@@ -1,7 +1,8 @@
 class Space:
-    def __init__(self):
+    def __init__(self, locationY=None, locationX=None):
         self._isOccupied = False
-        self._location = None
+        self._locationY = locationY
+        self._locationX = locationX
         self._spaceOwner = None
 
     def getOccupancy(self):
