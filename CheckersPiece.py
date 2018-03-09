@@ -36,28 +36,7 @@ class CheckersPiece(implements(Piece)):
 
     def movePiece(self, gameBoard, newSpaceRow, newSpaceColumn):
         oldSpace = self.getLocation()
+        oldSpace.setUnoccupied()
         newSpace = gameBoard.getSpaceByLocation(newSpaceRow, newSpaceColumn)
-        if (newSpace.getOccupancy() == False):
-            if ((abs(oldSpace._locationY - newSpaceRow) == 1) and (abs(oldSpace._locationX - newSpaceColumn) == 1)):
-                oldSpace.setUnoccupied()
-                newSpace.setSpaceOwner(self)
-                self.setLocation(newSpace)
-            elif ((abs(oldSpace._locationY - newSpaceRow) == 2) and (abs(oldSpace._locationX - newSpaceColumn) == 2)):
-                pass
-
-
-        #else illegal move
-        else:
-            return
-
-    def jumpPiece(self, gameBoard, newSpaceRow, newSpaceColumn):
-        oldSpace = self.getLocation()
-        newSpace = gameBoard.getSpaceByLocation(newSpaceRow, newSpaceColumn)
-        if (newSpace.getOccupancy() == False):
-            if ((abs(oldSpace._locationY - newSpaceRow) == 2) and (abs(oldSpace._locationX - newSpaceColumn) == 2)):
-                oldSpace.setUnoccupied()
-                newSpace.setSpaceOwner(self)
-                self.setLocation(newSpace)
-        #else illegal move
-        else:
-            return
+        newSpace.setSpaceOwner(self)
+        self.setLocation(newSpace)
