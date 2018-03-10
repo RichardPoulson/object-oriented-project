@@ -1,11 +1,11 @@
 class GameObservable:
 
     def __init__(self):
-        self._observers = None
+        self._observers = []
         self._address = None
 
     def addObserver(self, player):
-        pass
+        self._observers.append(player)
 
     def removeObserver(self, player):
         pass

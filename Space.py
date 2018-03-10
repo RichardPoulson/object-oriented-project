@@ -1,15 +1,16 @@
 class Space:
-    def __init__(self, locationY=None, locationX=None):
+    def __init__(self, locationI=None, locationJ=None):
         self._isOccupied = False
-        self._locationY = locationY
-        self._locationX = locationX
+        # TODO: these should not be hardcoded as matrix indices
+        self._locationI = locationI
+        self._locationJ = locationJ
         self._spaceOwner = None
 
     def getOccupancy(self):
         return self._isOccupied
 
-    def setOccupied(self):
-        self._isOccupied = True
+    def setOccupancy(self, occupied):
+        self._isOccupied = occupied
 
     def setUnoccupied(self):
         self._isOccupied = False
@@ -20,10 +21,15 @@ class Space:
 
     def setSpaceOwner(self, owner):
         self._spaceOwner = owner
-        self.setOccupied()
+        self.setOccupancy(True)
+
+    def removeSpaceOwner(self):
+        self._spaceOwner = None
+        self.setOccupancy(False)
 
     def getLocation(self):
-        return self._location
+        # TODO: this should not be hardcoded as a matrix
+        return (self._locationI, self.locationJ)
 
     def setLocation(self, newLocation):
         self._location = newLocation
