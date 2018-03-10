@@ -25,18 +25,18 @@ class CheckersBoard(GameObservable):
             for j in range(0, len(self.spaces), 2):
                 if ((i % 2) == 0):
                     # initialize player1 pieces for even rows
-                    self.playerPieces[0][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='X{}'.format(pieceCounter), pieceLocation=(i, j+1))
+                    self.playerPieces[0][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1))
                     self.spaces[i][j+1].setSpaceOwner(self.playerPieces[0][pieceCounter])
 
                     # initialize player2 pieces for even rows
-                    self.playerPieces[1][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='O{}'.format(pieceCounter), pieceLocation=(7-i, j))
+                    self.playerPieces[1][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j))
                     self.spaces[7-i][j].setSpaceOwner(self.playerPieces[1][pieceCounter])
                 else:
                     # initialize player1 pieces for odd rows
-                    self.playerPieces[0][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='X{}'.format(pieceCounter), pieceLocation=(i, j))
+                    self.playerPieces[0][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j))
                     self.spaces[i][j].setSpaceOwner(self.playerPieces[0][pieceCounter])
                     # initialize player2 pieces for odd rows
-                    self.playerPieces[1][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='O{}'.format(pieceCounter), pieceLocation=(7-i, j+1))
+                    self.playerPieces[1][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1))
                     self.spaces[7-i][j+1].setSpaceOwner(self.playerPieces[1][pieceCounter])
                 pieceCounter += 1
 
@@ -55,4 +55,4 @@ class CheckersBoard(GameObservable):
     #for testing
     def printBoard(self):
         for row in self.spaces:
-            print(['--' if (space.getSpaceOwner() is None) else space.getSpaceOwner()._owner for space in row])
+            print(['---' if (space.getSpaceOwner() is None) else space.getSpaceOwner()._owner for space in row])
