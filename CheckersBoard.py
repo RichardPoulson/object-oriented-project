@@ -41,6 +41,8 @@ class CheckersBoard(GameObservable):
                     self.playerPieces[1][pieceCounter] = self._pieceFactory.getPiece(pieceOwner='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1))
                     self.spaces[7-i][j+1].setSpaceOwner(self.playerPieces[1][pieceCounter])
                 pieceCounter += 1
+        for observer in self._observers:
+            observer._numPieces = len(self.playerPieces)
 
     def getState(self):
         pass
@@ -91,3 +93,4 @@ class CheckersBoard(GameObservable):
     def printBoard(self):
         for row in self.spaces:
             print(['---' if (space.getSpaceOwner() is None) else space.getSpaceOwner()._owner for space in row])
+        print()

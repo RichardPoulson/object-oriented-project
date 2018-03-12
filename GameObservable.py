@@ -8,10 +8,14 @@ class GameObservable:
         self._observers.append(player)
 
     def removeObserver(self, player):
-        pass
+        try:
+            self._observers.remove(player)
+        except ValueError:
+            return
 
     def notifyObservers(self):
-        pass
+        for observer in self._observers:
+            observer.update(self)
 
     def getState(self):
         pass
