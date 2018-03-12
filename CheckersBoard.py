@@ -10,7 +10,9 @@ class CheckersBoard(GameObservable):
         super().__init__()
         self._pieceFactory = PieceFactory()
         self.playerPieces = []
-        self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, 8)] for j in range(0, 8)]
+        self.numRows = 8
+        self.numCols = 8
+        self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.numCols)] for j in range(0, self.numRows)]
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
 
     def addObserver(self, player):
@@ -52,13 +54,25 @@ class CheckersBoard(GameObservable):
             returnSpace = self.spaces[i][j]
         return returnSpace
 
-    def isValidMove(self):
-        return True
+    def isValidMove(self, piece, player, currentLocation, moveType):
+        vertical, horizontal = self.moveOptions[self._observers.index(player)][moveType]
+        if ((currentLocation[0]+vertical > self.numRows) or (currentLocation[0]+vertical < 0)):
+            return False
+        elif ((currentLocation[1]+horizontal > self.numCols) or (currentLocation[1]+horizontal < 0)):
+            return False
+        else:
+            if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
+                jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
+                if ((jumpedSpace.getSpaceOwner() != player) and (jumpedSpace.getSpaceOwner() is not None)):
+                    return True
+            else:
+                return True
+        return False
 
     def movePlayerPiece(self, piece, player, moveType):
         currentLocation = piece.getLocation()
         vertical, horizontal = self.moveOptions[self._observers.index(player)][moveType]
-        if self.isValidMove():
+        if self.isValidMove(piece, player, currentLocation, moveType):
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 # remove opponent piece, move piece
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
