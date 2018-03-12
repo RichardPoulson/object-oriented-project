@@ -39,18 +39,4 @@ class CheckersPiece(implements(Piece)):
         return True
 
     def movePiece(self, gameBoard, player, moveType):
-        vertical, horizontal = gameBoard.moveOptions[gameBoard._observers.index(player)][moveType]
-        if self.isValidMove(gameBoard, player, vertical, horizontal):
-            if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
-                # remove opponent piece, move piece
-                jumpee = gameBoard.getSpaceByLocation(int(self.getLocation()[0]+vertical/2),  int(self.getLocation()[1]+horizontal/2))
-                if (jumpee.getSpaceOwner() != player):
-                    jumpee.removeSpaceOwner()
-                    #TODO: delete actual piece
-
-            gameBoard.getSpaceByLocation(self.getLocation()[0], self.getLocation()[1]).removeSpaceOwner()
-            gameBoard.getSpaceByLocation(self.getLocation()[0]+vertical, self.getLocation()[1]+horizontal).setSpaceOwner(self)
-            self.setLocation((self.getLocation()[0]+vertical, self.getLocation()[1]+horizontal))
-
-        else:
-            print('invalid move')
+        self.setLocation(gameBoard.movePlayerPiece(self, player, moveType))

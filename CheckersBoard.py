@@ -52,6 +52,27 @@ class CheckersBoard(GameObservable):
             returnSpace = self.spaces[i][j]
         return returnSpace
 
+    def isValidMove(self):
+        return True
+
+    def movePlayerPiece(self, piece, player, moveType):
+        currentLocation = piece.getLocation()
+        vertical, horizontal = self.moveOptions[self._observers.index(player)][moveType]
+        if self.isValidMove():
+            if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
+                # remove opponent piece, move piece
+                jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
+                if (jumpedSpace.getSpaceOwner() != player):
+                    jumpedSpace.removeSpaceOwner()
+                    #TODO: delete actual piece
+
+            self.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceOwner()
+            self.getSpaceByLocation(currentLocation[0]+vertical, currentLocation[1]+horizontal).setSpaceOwner(piece)
+            currentLocation = (currentLocation[0]+vertical, currentLocation[1]+horizontal)
+        else:
+            print('invalid move')
+        return currentLocation
+
     #for testing
     def printBoard(self):
         for row in self.spaces:
