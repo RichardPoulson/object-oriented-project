@@ -13,6 +13,15 @@ class HumanPlayer(AbstractPlayer):
     def getPieceFromCollection(self, pieceID):
         return self._pieces[pieceID]
 
+    def getNumPieces(self):
+        return self._numPieces
+
+    def setNumPieces(self):
+        self._numPieces = len(self._pieces)
+
+    def decrementNumPieces(self):
+        self._numPieces -= 1
+
     def makeMove(self, gameBoard, pieceID, moveType):
         self._pieces[pieceID].movePiece(gameBoard, self, moveType)
         gameBoard.notifyObservers()

@@ -9,7 +9,6 @@ class CheckersBoard(GameObservable):
     def __init__(self):
         super().__init__()
         self._pieceFactory = PieceFactory()
-        #self.playerPieces = []
         self.numRows = 8
         self.numCols = 8
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.numCols)] for j in range(0, self.numRows)]
@@ -17,8 +16,6 @@ class CheckersBoard(GameObservable):
 
     def addObserver(self, player):
         super().addObserver(player)
-        #self.playerPieces.append([None for pieceNumber in range(0, 12)])
-
 
     def initializeGameBoard(self):
         assert (len(self._observers) == 2), 'Must have two players to start game'
@@ -43,9 +40,10 @@ class CheckersBoard(GameObservable):
                     self.spaces[7-i][j+1].setSpaceOwner(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
 
                 pieceCounter += 1
-        #for observer in self._observers:
-        #    observer._numPieces = len(self.playerPieces)
-        
+
+        for observer in self._observers:
+            observer.setNumPieces()
+
     def getState(self):
         pass
 
@@ -79,6 +77,8 @@ class CheckersBoard(GameObservable):
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 # remove opponent piece, move piece
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
+                #TODO: decrement opponent player's piececount
+                #jumpedSpace.getSpaceOwner().decrementNumPieces()
                 jumpedSpace.removeSpaceOwner()
 
             self.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceOwner()

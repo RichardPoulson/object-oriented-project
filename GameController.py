@@ -18,18 +18,11 @@ class GameController:
     def runGame(self):
         self.game.initializeGameBoard()
         self.game.printBoard()
-        i = 0
-        while(i < 2):
+        while(max(self.game._observers[0].getNumPieces(), self.game._observers[1].getNumPieces()) > 0):
             for player in self.game._observers:
-                #fromSpaceRow = int(input("Piece Row:"))
-                #fromSpaceCol = int(input("Piece Column:"))
-                #pieceID = self.game.spaces[fromSpaceRow][fromSpaceCol].getSpaceOwner()
                 pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
                 player.makeMove(self.game, pieceID, moveType)
-                #player.makeMove(self.game, self.game.playerPieces[1][9], 'moveLeft')
-            i+=1
-
 
 
 newGame = GameController()
