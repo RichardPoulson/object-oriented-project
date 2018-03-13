@@ -24,7 +24,6 @@ class HumanPlayer(AbstractPlayer):
 
     def makeMove(self, gameBoard, pieceID, moveType):
         self._pieces[pieceID].movePiece(gameBoard, self, moveType)
-        gameBoard.notifyObservers()
 
     def update(self, gameBoard):
         gameBoard.printBoard()
