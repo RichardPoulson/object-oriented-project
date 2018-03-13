@@ -21,11 +21,12 @@ class GameController:
         i = 0
         while(i < 2):
             for player in self.game._observers:
-                fromSpaceRow = int(input("Piece Row:"))
-                fromSpaceCol = int(input("Piece Column:"))
-                piece = self.game.spaces[fromSpaceRow][fromSpaceCol].getSpaceOwner()
+                #fromSpaceRow = int(input("Piece Row:"))
+                #fromSpaceCol = int(input("Piece Column:"))
+                #pieceID = self.game.spaces[fromSpaceRow][fromSpaceCol].getSpaceOwner()
+                pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
-                player.makeMove(self.game, piece, moveType)
+                player.makeMove(self.game, pieceID, moveType)
                 #player.makeMove(self.game, self.game.playerPieces[1][9], 'moveLeft')
             i+=1
 

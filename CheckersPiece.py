@@ -39,4 +39,4 @@ class CheckersPiece(implements(Piece)):
         return True
 
     def movePiece(self, gameBoard, player, moveType):
-        self.setLocation(gameBoard.movePlayerPiece(self, player, moveType))
+        self.setLocation(gameBoard.movePlayerPiece(self, player, self.getLocation(), moveType))
