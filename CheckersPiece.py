@@ -3,8 +3,8 @@ from Piece import *
 
 class CheckersPiece(implements(Piece)):
 
-    def __init__(self, color=None, owner=None, isKing=False, location=None):
-        self._color = color
+    def __init__(self, ID=None, owner=None, isKing=False, location=None):
+        self._ID = ID
         self._owner = owner
         # may be a good idea to make King a separate class
         self._isKing = isKing
