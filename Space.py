@@ -4,7 +4,7 @@ class Space:
         # TODO: these should not be hardcoded as matrix indices
         self._locationI = locationI
         self._locationJ = locationJ
-        self._spaceOwner = None
+        self._spaceResident = None
 
     def getOccupancy(self):
         return self._isOccupied
@@ -14,17 +14,17 @@ class Space:
 
     def setUnoccupied(self):
         self._isOccupied = False
-        self._spaceOwner = None
+        self._spaceResident = None
 
-    def getSpaceOwner(self):
-        return self._spaceOwner
+    def getSpaceResident(self):
+        return self._spaceResident
 
-    def setSpaceOwner(self, owner):
-        self._spaceOwner = owner
+    def setSpaceResident(self, owner):
+        self._spaceResident = owner
         self.setOccupancy(True)
 
-    def removeSpaceOwner(self):
-        self._spaceOwner = None
+    def removeSpaceResident(self):
+        self._spaceResident = None
         self.setOccupancy(False)
 
     def getLocation(self):

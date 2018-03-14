@@ -26,18 +26,18 @@ class CheckersBoard(GameObservable):
                 if ((i % 2) == 0):
                     # initialize player1 pieces for even rows
                     self._observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1)))
-                    self.spaces[i][j+1].setSpaceOwner(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
+                    self.spaces[i][j+1].setSpaceResident(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
 
                     # initialize player2 pieces for even rows
                     self._observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j)))
-                    self.spaces[7-i][j].setSpaceOwner(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
+                    self.spaces[7-i][j].setSpaceResident(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
                 else:
                     # initialize player1 pieces for odd rows
                     self._observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j)))
-                    self.spaces[i][j].setSpaceOwner(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
+                    self.spaces[i][j].setSpaceResident(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
                     # initialize player2 pieces for odd rows
                     self._observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1)))
-                    self.spaces[7-i][j+1].setSpaceOwner(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
+                    self.spaces[7-i][j+1].setSpaceResident(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
 
                 pieceCounter += 1
 
@@ -65,7 +65,7 @@ class CheckersBoard(GameObservable):
         else:
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
-                if ((jumpedSpace.getSpaceOwner() != player) and (jumpedSpace.getSpaceOwner() is not None)):
+                if ((jumpedSpace.getSpaceResident() != player) and (jumpedSpace.getSpaceResident() is not None)):
                     return True
             else:
                 return True
@@ -78,11 +78,11 @@ class CheckersBoard(GameObservable):
                 # remove opponent piece, move piece
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
                 #TODO: decrement opponent player's piececount
-                #jumpedSpace.getSpaceOwner().decrementNumPieces()
-                jumpedSpace.removeSpaceOwner()
+                jumpedSpace.getSpaceResident().getOwner().decrementNumPieces()
+                jumpedSpace.removeSpaceResident()
 
-            self.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceOwner()
-            self.getSpaceByLocation(currentLocation[0]+vertical, currentLocation[1]+horizontal).setSpaceOwner(piece)
+            self.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceResident()
+            self.getSpaceByLocation(currentLocation[0]+vertical, currentLocation[1]+horizontal).setSpaceResident(piece)
             currentLocation = (currentLocation[0]+vertical, currentLocation[1]+horizontal)
         else:
             print('invalid move')
@@ -94,5 +94,5 @@ class CheckersBoard(GameObservable):
     #for testing
     def printBoard(self):
         for row in self.spaces:
-            print(['---' if (space.getSpaceOwner() is None) else space.getSpaceOwner()._ID for space in row])
+            print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident()._ID for space in row])
         print()
