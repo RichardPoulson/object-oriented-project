@@ -1,11 +1,13 @@
 from AbstractPlayer import *
 from CheckersPiece import *
+import socket
 
 class HumanPlayer(AbstractPlayer):
     def __init__(self, playerID=None):
         self._id = playerID
         self._pieces = {}
         self._numPieces = 0
+        self.playerSocket = socket.socket()
 
     def addToPieceCollection(self, newPieceID, newPiece):
         self._pieces[newPieceID] = newPiece
@@ -21,6 +23,12 @@ class HumanPlayer(AbstractPlayer):
 
     def decrementNumPieces(self):
         self._numPieces -= 1
+
+    def getPlayerSocket(self):
+        return self.playerSocket
+
+    def connectPlayerSocket(self, address, port):
+        self.playerSocket.connect((address, port))
 
     def makeMove(self, gameBoard, pieceID, moveType):
         self._pieces[pieceID].movePiece(gameBoard, self, moveType)
