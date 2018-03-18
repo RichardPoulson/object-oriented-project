@@ -27,6 +27,12 @@ class GameServer(Server):
             dataClass = pickle.loads(data2)
             print(dataClass.b)
 
+    def getGameState(self):
+        return self.gameState
+
+    def setGameState(self):
+        pass
+
     def closeServer(self):
         self.serverSocket.close()
 

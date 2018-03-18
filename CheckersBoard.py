@@ -87,7 +87,7 @@ class CheckersBoard(GameObservable):
         else:
             print('invalid move')
 
-        self.notifyObservers()
+        #self.notifyObservers()
 
         return currentLocation
 

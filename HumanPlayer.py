@@ -9,6 +9,9 @@ class HumanPlayer(AbstractPlayer):
         self._numPieces = 0
         self.playerSocket = socket.socket()
 
+    def setObservingGameState(self, gameState):
+        self.observingGameState = gameState
+
     def addToPieceCollection(self, newPieceID, newPiece):
         self._pieces[newPieceID] = newPiece
 
@@ -33,5 +36,6 @@ class HumanPlayer(AbstractPlayer):
     def makeMove(self, gameBoard, pieceID, moveType):
         self._pieces[pieceID].movePiece(gameBoard, self, moveType)
 
-    def update(self, gameBoard):
-        gameBoard.printBoard()
+    def update(self, gameState):
+        self.setObservingGameState(gameState)
+        #gameBoard.printBoard()
