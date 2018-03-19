@@ -1,25 +1,57 @@
-from abc import ABCMeta, abstractmethod
 import socket
+import threading
+from ClientSocket import *
+from CheckersBoard import *
 
-class Server(metaclass=ABCMeta):
+class Server:
 
-    connections = []
+    def __init__(self, address, port, gameBoard):
+        self.clientConnections = []
+        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.serverSocket.bind((address, port))
+        self.serverSocket.listen()
+        self.setAdress(address)
+        self.setPort(port)
+        self.game = gameBoard
 
-    def addConnection(self, player):
-        player.connectPlayerSocket(self.address, self.port)
-        #clientSocket.connect((self.address, self.port))
-        client, address = self.serverSocket.accept()
-        self.connections.append((player.getPlayerSocket(), client))
+    def getAdress(self):
+        return self.address
+
+    def setAdress(self, address):
+        self.address = address
+
+    def getPort(self):
+        return self.port
+
+    def setPort(self, port):
+        self.port = port
+
+    def clientInputHandler(self, clientSocket):
+        while True:
+            if (len(self.clientConnections) == 2):
+                data = clientSocket.recv(1024)
+                for connection in self.clientConnections:
+                    connection.send(bytes(data))
+
+    def acceptConnections(self):
+        while True:
+            clientSocket, address = self.serverSocket.accept()
+            clientHandlerThread = threading.Thread(target=self.clientInputHandler, args=(clientSocket,))
+            clientHandlerThread.daemon = True
+            clientHandlerThread.start()
+            self.clientConnections.append(clientSocket)
+            print("recieved connection from {}:{}".format(address[0], address[1]))
 
     def removeConnection(self, clientSocket):
-        for socket, connection, i in enumerate(self.connections):
+        for socket, i in enumerate(self.connections):
             if (clientSocket == socket):
+                clientSocket.close()
                 self.connections.pop(i)
 
-    @abstractmethod
-    def notify(self):
-        pass
+    def run(self):
+        acceptorThread = threading.Thread(target=self.acceptConnections)
+        acceptorThread.daemon=True
+        acceptorThread.start()
 
-    @abstractmethod
     def closeServer(self):
-        pass
+        self.serverSocket.close()
