@@ -23,14 +23,16 @@ class GameController:
     def joinGame(self, player):
         self.getServer().addConnection(player)
 
-    def runGame(self):
-        self.game.initializeGameBoard()
-        self.game.printBoard()
+    def runGame(self, player1, player2):
+        self.server.startGameServer(player1, player2)
+        self.server.gameState.printBoard()
+        '''
         while(max(self.game._observers[0].getNumPieces(), self.game._observers[1].getNumPieces()) > 0):
             for player in self.game._observers:
                 pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
                 player.makeMove(self.game, pieceID, moveType)
+        '''
 
 
 newGame = GameController()
@@ -40,7 +42,7 @@ newGame.hostGame(player1, socket.gethostbyname(''), 1235)
 newGame.joinGame(player2)
 player1.setObservingGameState(newGame.server.getGameState())
 player2.setObservingGameState(newGame.server.getGameState())
-#newGame.runGame()
+newGame.runGame(player1, player2)
 
 newGame.server.notify()
 

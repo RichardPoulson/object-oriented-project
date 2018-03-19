@@ -17,32 +17,30 @@ class CheckersBoard(GameObservable):
     def addObserver(self, player):
         super().addObserver(player)
 
-    def initializeGameBoard(self):
-        assert (len(self._observers) == 2), 'Must have two players to start game'
-
+    def initializeGameBoard(self, player1, player2):
         pieceCounter = 0
         for i in range(0, 3):
             for j in range(0, self.numCols, 2):
                 if ((i % 2) == 0):
                     # initialize player1 pieces for even rows
-                    self._observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1)))
-                    self.spaces[i][j+1].setSpaceResident(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
+                    player1.addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=player1, pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1)))
+                    self.spaces[i][j+1].setSpaceResident(player1.getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
 
                     # initialize player2 pieces for even rows
-                    self._observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j)))
-                    self.spaces[7-i][j].setSpaceResident(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
+                    player2.addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=player2, pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j)))
+                    self.spaces[7-i][j].setSpaceResident(player2.getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
                 else:
                     # initialize player1 pieces for odd rows
-                    self._observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j)))
-                    self.spaces[i][j].setSpaceResident(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
+                    player1.addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=player1, pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j)))
+                    self.spaces[i][j].setSpaceResident(player1.getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
                     # initialize player2 pieces for odd rows
-                    self._observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1)))
-                    self.spaces[7-i][j+1].setSpaceResident(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
+                    player2.addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=player2, pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1)))
+                    self.spaces[7-i][j+1].setSpaceResident(player2.getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
 
                 pieceCounter += 1
 
-        for observer in self._observers:
-            observer.setNumPieces()
+        player1.setNumPieces()
+        player2.setNumPieces()
 
     def getState(self):
         pass

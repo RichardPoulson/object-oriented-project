@@ -33,6 +33,10 @@ class GameServer(Server):
     def setGameState(self):
         pass
 
+    def startGameServer(self, player1, player2):
+        assert (len(self.connections) == 2), 'Must have two players to start game'
+        self.gameState.initializeGameBoard(player1, player2)
+
     def closeServer(self):
         self.serverSocket.close()
 
