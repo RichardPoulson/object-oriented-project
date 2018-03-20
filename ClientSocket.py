@@ -1,5 +1,7 @@
 import socket
 import threading
+import pickle
+from CheckersBoard import *
 
 class ClientSocket:
 
@@ -21,3 +23,7 @@ class ClientSocket:
     def receiveMessage(self):
         data = self.clientSocket.recv(1024)
         print("Client {} recieved: ".format(self.id), str(data, 'utf-8'))
+
+    def fetchState(self):
+        newState = self.clientSocket.recv(4096)
+        return pickle.loads(newState)

@@ -16,7 +16,11 @@ c2.receiveMessage()
 c2.sendMessage(input("Message 2: "))
 c.receiveMessage()
 c2.receiveMessage()
-
+'''
+server.sendState()
+c.fetchState()
+c2.fetchState()
+'''
 c.clientSocket.close()
 c2.clientSocket.close()
 server.serverSocket.close()
