@@ -2,6 +2,8 @@ from abc import ABCMeta, abstractmethod
 
 class GameObservable(metaclass=ABCMeta):
 
+    _observers = []
+
     def addObserver(self, player):
         self._observers.append(player)
 
