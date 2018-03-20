@@ -1,8 +1,6 @@
-class GameObservable:
+from abc import ABCMeta, abstractmethod
 
-    def __init__(self):
-        self._observers = []
-        self._address = None
+class GameObservable(metaclass=ABCMeta):
 
     def addObserver(self, player):
         self._observers.append(player)
@@ -17,11 +15,10 @@ class GameObservable:
         for observer in self._observers:
             observer.update(self)
 
+    @abstractmethod
     def getState(self):
         pass
 
+    @abstractmethod
     def setState(self):
-        pass
-
-    def resetState(self):
         pass

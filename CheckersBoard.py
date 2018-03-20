@@ -7,7 +7,7 @@ import numpy as np
 class CheckersBoard(GameObservable):
 
     def __init__(self):
-        super().__init__()
+        self._observers = []
         self._pieceFactory = PieceFactory()
         self.numRows = 8
         self.numCols = 8
