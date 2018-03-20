@@ -1,6 +1,7 @@
 import socket
 import threading
 import pickle
+import sys
 from ClientSocket import *
 from CheckersBoard import *
 
@@ -28,9 +29,9 @@ class Server:
         self.port = port
 
     def sendState(self):
-        currentGameState = pickle.dumps(self.game)
+        readOnlyGameState = pickle.dumps(self.game.getReadOnlyState())
         for connection in self.clientConnections:
-            connection.send(currentGameState)
+            connection.send(readOnlyGameState)
 
     def clientInputHandler(self, clientSocket):
         while True:

@@ -88,6 +88,9 @@ class CheckersBoard(GameObservable):
 
         return currentLocation
 
+    def getReadOnlyState(self):
+        return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident()._ID for space in row] for row in self.spaces])
+
     #for testing
     def printBoard(self):
         for row in self.spaces:

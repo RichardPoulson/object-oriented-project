@@ -16,11 +16,13 @@ c2.receiveMessage()
 c2.sendMessage(input("Message 2: "))
 c.receiveMessage()
 c2.receiveMessage()
-'''
+
 server.sendState()
-c.fetchState()
-c2.fetchState()
-'''
+x = c.fetchState()
+y = c2.fetchState()
+for row in x:
+    print(row)
+
 c.clientSocket.close()
 c2.clientSocket.close()
 server.serverSocket.close()
