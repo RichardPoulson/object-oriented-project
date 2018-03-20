@@ -22,5 +22,9 @@ class GameObservable(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def setState(self):
+    def setState(self, newState):
+        pass
+
+    @abstractmethod
+    def initializeGameBoard(self):
         pass
