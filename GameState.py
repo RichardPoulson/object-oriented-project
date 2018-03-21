@@ -6,6 +6,7 @@ algorithm.
 
 https://docs.python.org/3/reference/datamodel.html#objects-values-and-types
 """
+from copy import deepcopy
 
 class GameState:
   # Constructor
@@ -14,6 +15,7 @@ class GameState:
     self.game_board = game_board
     self.humans_turn = humans_turn
     self.last_move = last_move # action/move that led to this game state
+    self.spaces = deepcopy(self.game_board.spaces)
     self.possible_moves = [] # possible moves that can be made
   # allow GameState to be iterated through, elements are possible moves
   def __iter__(self):
