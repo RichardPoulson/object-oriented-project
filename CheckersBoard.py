@@ -7,15 +7,12 @@ import numpy as np
 class CheckersBoard(GameObservable):
 
     def __init__(self):
-        super().__init__()
+        self._observers = []
         self._pieceFactory = PieceFactory()
         self.numRows = 8
         self.numCols = 8
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.numCols)] for j in range(0, self.numRows)]
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
-
-    def addObserver(self, player):
-        super().addObserver(player)
 
     def initializeGameBoard(self):
         assert (len(self._observers) == 2), 'Must have two players to start game'
@@ -47,13 +44,13 @@ class CheckersBoard(GameObservable):
     def getState(self):
         pass
 
-    def setState(self):
+    def setState(self, newState):
         pass
 
-    def getSpaceByLocation(self, i, j):
+    def getSpaceByLocation(self, rowIndex, columnIndex):
         returnSpace = None
-        if (i >= 0 and j < len(self.spaces)) and (i >= 0 and j < len(self.spaces[0])):
-            returnSpace = self.spaces[i][j]
+        if (rowIndex >= 0 and columnIndex < len(self.spaces)) and (rowIndex >= 0 and columnIndex < len(self.spaces[0])):
+            returnSpace = self.spaces[rowIndex][columnIndex]
         return returnSpace
 
     def isValidMove(self, player, currentLocation, moveType):
@@ -90,6 +87,9 @@ class CheckersBoard(GameObservable):
         self.notifyObservers()
 
         return currentLocation
+
+    def getReadOnlyState(self):
+        return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident()._ID for space in row] for row in self.spaces])
 
     #for testing
     def printBoard(self):

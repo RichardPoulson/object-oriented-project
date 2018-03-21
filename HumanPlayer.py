@@ -1,17 +1,11 @@
-from AbstractPlayer import *
+from Player import *
 from CheckersPiece import *
 
-class HumanPlayer(AbstractPlayer):
+class HumanPlayer(Player):
     def __init__(self, playerID=None):
         self._id = playerID
         self._pieces = {}
         self._numPieces = 0
-
-    def addToPieceCollection(self, newPieceID, newPiece):
-        self._pieces[newPieceID] = newPiece
-
-    def getPieceFromCollection(self, pieceID):
-        return self._pieces[pieceID]
 
     def getNumPieces(self):
         return self._numPieces
@@ -25,5 +19,5 @@ class HumanPlayer(AbstractPlayer):
     def makeMove(self, gameBoard, pieceID, moveType):
         self._pieces[pieceID].movePiece(gameBoard, self, moveType)
 
-    def update(self, gameBoard):
-        gameBoard.printBoard()
+    def update(self, gameState):
+        gameState.printBoard()

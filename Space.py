@@ -12,15 +12,11 @@ class Space:
     def setOccupancy(self, occupied):
         self._isOccupied = occupied
 
-    def setUnoccupied(self):
-        self._isOccupied = False
-        self._spaceResident = None
-
     def getSpaceResident(self):
         return self._spaceResident
 
-    def setSpaceResident(self, owner):
-        self._spaceResident = owner
+    def setSpaceResident(self, resident):
+        self._spaceResident = resident
         self.setOccupancy(True)
 
     def removeSpaceResident(self):
