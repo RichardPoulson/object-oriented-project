@@ -10,7 +10,7 @@ class Player(metaclass=ABCMeta):
         return self.pieces[pieceID]
 
     @abstractmethod
-    def update(self, gameState):
+    def update(self, gameBoard):
         pass
 
     @abstractmethod

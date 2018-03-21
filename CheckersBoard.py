@@ -22,18 +22,18 @@ class CheckersBoard(GameObservable):
             for j in range(0, self.numCols, 2):
                 if ((i % 2) == 0):
                     # initialize player1 pieces for even rows
-                    self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1)))
+                    self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), CheckersPiece(ID='X{0:02d}'.format(pieceCounter), owner=self.observers[0], location=(i, j+1)))
                     self.spaces[i][j+1].setSpaceResident(self.observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
 
                     # initialize player2 pieces for even rows
-                    self.observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j)))
+                    self.observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), CheckersPiece(ID='O{0:02d}'.format(pieceCounter), owner=self.observers[1], location=(7-i, j)))
                     self.spaces[7-i][j].setSpaceResident(self.observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
                 else:
                     # initialize player1 pieces for odd rows
-                    self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j)))
+                    self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), CheckersPiece(ID='X{0:02d}'.format(pieceCounter), owner=self.observers[0], location=(i, j)))
                     self.spaces[i][j].setSpaceResident(self.observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
                     # initialize player2 pieces for odd rows
-                    self.observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1)))
+                    self.observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), CheckersPiece(ID='O{0:02d}'.format(pieceCounter), owner=self.observers[1], location=(7-i, j+1)))
                     self.spaces[7-i][j+1].setSpaceResident(self.observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
 
                 pieceCounter += 1

@@ -10,7 +10,7 @@ class ClientSocket:
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clientSocket.connect((address, port))
 
-    def sendMsg(self):
+    def sendMessage(self):
         while True:
             self.clientSocket.send(bytes(input(""), 'utf-8'))
 

@@ -19,5 +19,5 @@ class HumanPlayer(Player):
     def makeMove(self, gameBoard, pieceID, moveType):
         self.pieces[pieceID].movePiece(gameBoard, self, moveType)
 
-    def update(self, gameState):
-        gameState.printBoard()
+    def update(self, gameBoard):
+        gameBoard.printBoard()
