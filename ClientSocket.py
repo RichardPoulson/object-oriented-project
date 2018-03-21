@@ -23,6 +23,7 @@ class ClientSocket:
     def receiveMessage(self):
         data = self.clientSocket.recv(1024)
         print("Client {} recieved: ".format(self.id), str(data, 'utf-8'))
+        return str(data, 'utf-8')
 
     def fetchState(self):
         newState = self.clientSocket.recv(4096)

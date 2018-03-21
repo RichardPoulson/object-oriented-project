@@ -1,7 +1,7 @@
 from Player import *
 from CheckersPiece import *
 
-class HumanPlayer(implements(Player)):
+class HumanPlayer(Player):
     def __init__(self, playerID=None):
         self._id = playerID
         self._pieces = {}

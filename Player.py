@@ -1,11 +1,12 @@
-from interface import Interface, implements
+from abc import ABCMeta, abstractmethod
 
-class Player(Interface):
-    def __init__(self):
-        pass
+class Player(metaclass=ABCMeta):
+    _pieces = {}
 
+    @abstractmethod
     def update(self, gameState):
         pass
 
+    @abstractmethod
     def makeMove(self, gameBoard, pieceID, moveType):
         pass

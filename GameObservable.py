@@ -28,3 +28,7 @@ class GameObservable(metaclass=ABCMeta):
     @abstractmethod
     def initializeGameBoard(self):
         pass
+
+    @abstractmethod
+    def getReadOnlyState(self):
+        pass

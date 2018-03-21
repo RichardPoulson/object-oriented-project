@@ -10,11 +10,11 @@ class CheckersPiece(implements(Piece)):
         self._isKing = isKing
         self._location = location
 
-    def getColor(self):
-        return self._color
+    def getID(self):
+        return self._ID
 
-    def setColor(self, color):
-        self._color = color
+    def setID(self, ID):
+        self._ID = ID
 
     def getOwner(self):
         return self._owner
@@ -33,10 +33,6 @@ class CheckersPiece(implements(Piece)):
 
     def setLocation(self, location):
         self._location = location
-
-    def isValidMove(self, gameBoard, player, vertical, horizontal):
-        # TODO: Check bounds on gameBoard, check if space is occupied
-        return True
 
     def movePiece(self, gameBoard, player, moveType):
         self.setLocation(gameBoard.movePlayerPiece(self, player, self.getLocation(), moveType))
