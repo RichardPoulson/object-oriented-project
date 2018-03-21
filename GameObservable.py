@@ -2,19 +2,19 @@ from abc import ABCMeta, abstractmethod
 
 class GameObservable(metaclass=ABCMeta):
 
-    _observers = []
+    observers = []
 
     def addObserver(self, player):
-        self._observers.append(player)
+        self.observers.append(player)
 
     def removeObserver(self, player):
         try:
-            self._observers.remove(player)
+            self.observers.remove(player)
         except ValueError:
             return
 
     def notifyObservers(self):
-        for observer in self._observers:
+        for observer in self.observers:
             observer.update(self)
 
     @abstractmethod

@@ -7,38 +7,38 @@ import numpy as np
 class CheckersBoard(GameObservable):
 
     def __init__(self):
-        self._observers = []
-        self._pieceFactory = PieceFactory()
+        self.observers = []
+        self.pieceFactory = PieceFactory()
         self.numRows = 8
         self.numCols = 8
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.numCols)] for j in range(0, self.numRows)]
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
 
     def initializeGameBoard(self):
-        assert (len(self._observers) == 2), 'Must have two players to start game'
+        assert (len(self.observers) == 2), 'Must have two players to start game'
 
         pieceCounter = 0
         for i in range(0, 3):
             for j in range(0, self.numCols, 2):
                 if ((i % 2) == 0):
                     # initialize player1 pieces for even rows
-                    self._observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1)))
-                    self.spaces[i][j+1].setSpaceResident(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
+                    self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j+1)))
+                    self.spaces[i][j+1].setSpaceResident(self.observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
 
                     # initialize player2 pieces for even rows
-                    self._observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j)))
-                    self.spaces[7-i][j].setSpaceResident(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
+                    self.observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j)))
+                    self.spaces[7-i][j].setSpaceResident(self.observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
                 else:
                     # initialize player1 pieces for odd rows
-                    self._observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j)))
-                    self.spaces[i][j].setSpaceResident(self._observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
+                    self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[0], pieceID='X{0:02d}'.format(pieceCounter), pieceLocation=(i, j)))
+                    self.spaces[i][j].setSpaceResident(self.observers[0].getPieceFromCollection('X{0:02d}'.format(pieceCounter)))
                     # initialize player2 pieces for odd rows
-                    self._observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self._pieceFactory.getPiece(pieceOwner=self._observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1)))
-                    self.spaces[7-i][j+1].setSpaceResident(self._observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
+                    self.observers[1].addToPieceCollection('O{0:02d}'.format(pieceCounter), self.pieceFactory.getPiece(pieceOwner=self.observers[1], pieceID='O{0:02d}'.format(pieceCounter), pieceLocation=(7-i, j+1)))
+                    self.spaces[7-i][j+1].setSpaceResident(self.observers[1].getPieceFromCollection('O{0:02d}'.format(pieceCounter)))
 
                 pieceCounter += 1
 
-        for observer in self._observers:
+        for observer in self.observers:
             observer.setNumPieces()
 
     def getState(self):
@@ -54,7 +54,7 @@ class CheckersBoard(GameObservable):
         return returnSpace
 
     def isValidMove(self, player, currentLocation, moveType):
-        vertical, horizontal = self.moveOptions[self._observers.index(player)][moveType]
+        vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
         if ((currentLocation[0]+vertical > self.numRows) or (currentLocation[0]+vertical < 0)):
             return False
         elif ((currentLocation[1]+horizontal > self.numCols) or (currentLocation[1]+horizontal < 0)):
@@ -69,7 +69,7 @@ class CheckersBoard(GameObservable):
         return False
 
     def movePlayerPiece(self, piece, player, currentLocation, moveType):
-        vertical, horizontal = self.moveOptions[self._observers.index(player)][moveType]
+        vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
         if self.isValidMove(player, currentLocation, moveType):
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 # remove opponent piece, move piece
@@ -89,10 +89,10 @@ class CheckersBoard(GameObservable):
         return currentLocation
 
     def getReadOnlyState(self):
-        return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident()._ID for space in row] for row in self.spaces])
+        return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident().getID() for space in row] for row in self.spaces])
 
     #for testing
     def printBoard(self):
         for row in self.spaces:
-            print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident()._ID for space in row])
+            print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident().getID() for space in row])
         print()

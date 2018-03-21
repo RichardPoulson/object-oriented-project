@@ -1,13 +1,13 @@
 from abc import ABCMeta, abstractmethod
 
 class Player(metaclass=ABCMeta):
-    _pieces = {}
+    pieces = {}
 
     def addToPieceCollection(self, newPieceID, newPiece):
-        self._pieces[newPieceID] = newPiece
+        self.pieces[newPieceID] = newPiece
 
     def getPieceFromCollection(self, pieceID):
-        return self._pieces[pieceID]
+        return self.pieces[pieceID]
 
     @abstractmethod
     def update(self, gameState):

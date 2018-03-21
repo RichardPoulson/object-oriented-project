@@ -18,8 +18,8 @@ class GameController:
     def runGame(self):
         self.game.initializeGameBoard()
         self.game.printBoard()
-        while(max(self.game._observers[0].getNumPieces(), self.game._observers[1].getNumPieces()) > 0):
-            for player in self.game._observers:
+        while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
+            for player in self.game.observers:
                 pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
                 player.makeMove(self.game, pieceID, moveType)
