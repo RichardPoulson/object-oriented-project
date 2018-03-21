@@ -8,7 +8,6 @@ class CheckersBoard(GameObservable):
 
     def __init__(self):
         self.observers = []
-        self.pieceFactory = PieceFactory()
         self.numRows = 8
         self.numCols = 8
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.numCols)] for j in range(0, self.numRows)]
