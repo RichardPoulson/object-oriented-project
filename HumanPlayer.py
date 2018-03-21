@@ -7,12 +7,6 @@ class HumanPlayer(Player):
         self._pieces = {}
         self._numPieces = 0
 
-    def addToPieceCollection(self, newPieceID, newPiece):
-        self._pieces[newPieceID] = newPiece
-
-    def getPieceFromCollection(self, pieceID):
-        return self._pieces[pieceID]
-
     def getNumPieces(self):
         return self._numPieces
 
