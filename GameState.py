@@ -10,14 +10,16 @@ from copy import deepcopy
 
 class GameState:
   # Constructor
-  def __init__(self, game_board, humans_turn, last_move = None):
-    self.value = None # refers to a utility value for AI player.
+  def __init__(self, current_player, last_move, game_board):
+    self.value_ = None # refers to a utility value for AI player.
+    self.current_player_ = current_player
+    self.last_move_ = last_move
     self.game_board = game_board
-    self.humans_turn = humans_turn
-    self.last_move = last_move # action/move that led to this game state
     self.spaces = deepcopy(self.game_board.spaces)
     self.possible_moves = [] # possible moves that can be made
   # allow GameState to be iterated through, elements are possible moves
+  def getValue(self):
+    return self.value_
   def __iter__(self):
     return iter(self.possible_moves)
   # used to determine if this MinMaxNode is == to another
