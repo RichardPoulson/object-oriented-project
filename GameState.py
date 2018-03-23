@@ -6,6 +6,10 @@ algorithm.
 
 https://docs.python.org/3/reference/datamodel.html#objects-values-and-types
 """
+
+"""
+    for AIplayer, on update(), possibly get newGameBoard, then gamestate.set()
+"""
 from copy import deepcopy
 
 class GameState:
