@@ -30,3 +30,6 @@ class GameState:
     for child in self:
       if child.getValue() == key:
         return child
+
+  def getAvailableMoves(self):
+      pass
