@@ -92,6 +92,28 @@ class CheckersBoard(GameObservable):
 
     #for testing
     def printBoard(self):
+		#prototype gui checkerboard
+        '''
+		w=can.winfo_width()
+		h=can.winfo_height()
+		cellwidth = w/8
+		cellheight = h/8
+		for row in range(8):
+			for col in range(8):
+				if (row+col)%2 == 0:
+					can.create_rectangle(col*cellwidth, row*cellheight, (col+1)*cellwidth, (row+1)*cellheight, fill = 'black')
+				else:
+					can.create_rectangle(col*cellwidth, row*cellheight, (col+1)*cellwidth, (row+1)*cellheight, fill = 'red')
+        '''
         for row in self.spaces:
-            print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident().getID() for space in row])
+            print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident().ID for space in row])
         print()
+
+'''
+window = Tk()
+thecanvas = Canvas(window, width=500, height=500)
+thecanvas.grid(row=0, column=0)
+window.update_idletasks()
+printBoard(thecanvas)
+window.mainloop
+'''
