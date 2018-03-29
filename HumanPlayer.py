@@ -7,6 +7,9 @@ class HumanPlayer(Player):
         self.pieces = {}
         self.numPieces = 0
 
+    def getPlayerPieces(self):
+        return [piece for pieceID, piece in self.pieces.items()]
+
     def getNumPieces(self):
         return self.numPieces
 

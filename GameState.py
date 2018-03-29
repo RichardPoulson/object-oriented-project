@@ -38,4 +38,5 @@ class GameState:
         return child
 
   def getAvailableMoves(self):
-      pass
+      for player in self.game_board.observers:
+          print(player.pieces)
