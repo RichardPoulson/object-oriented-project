@@ -22,4 +22,21 @@ class GameState:
   def setLastMove(self, lastMove): self.lastMove = deepcopy(lastMove)
   def getLastMove(self): return self.lastMove
   def __iter__(self):
-    return iter(self.spaces)
+    return iter(self.possible_moves)
+  # used to determine if this MinMaxNode is == to another
+  def __eq__(self, other):
+    return (self.value == other.value)
+  # used to determine if this MinMaxNode is < another
+  def __lt__(self, other):
+    return (self.value < other.value)
+  def __getitem__(self, key):
+    for child in self:
+      if child.getValue() == key:
+        return child
+
+  def getAvailableMoves(self):
+    for player in self.game_board.observers:
+        for piece in player.getPlayerPieces():
+            for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
+                if self.game_board.isValidMove(player, piece.getLocation(), moveType):
+                    self.possible_moves.append((piece, moveType))

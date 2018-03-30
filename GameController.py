@@ -1,5 +1,6 @@
 from CheckersBoard import *
 from HumanPlayer import *
+from GameState import *
 
 class GameController:
     def __init__(self):
@@ -18,6 +19,10 @@ class GameController:
     def runGame(self):
         self.game.initializeGameBoard()
         self.game.printBoard()
+
+        gs = GameState(None, None, self.game)
+        gs.getAvailableMoves()
+
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:
                 pieceID = input("Piece ID: ")
