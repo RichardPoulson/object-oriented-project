@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Defines an encapsulated "game state".  Will be used in the AlphaBetaSearch
-algorithm.
-
-https://docs.python.org/3/reference/datamodel.html#objects-values-and-types
+Defines GameState, which defines the state of a checkers game.
 """
 
 """
@@ -14,25 +11,15 @@ from copy import deepcopy
 
 class GameState:
   # Constructor
-  def __init__(self, current_player, last_move, game_board):
-    self.value_ = None # refers to a utility value for AI player.
-    self.current_player_ = current_player
-    self.last_move_ = last_move
-    self.game_board = game_board
-    self.spaces = deepcopy(self.game_board.spaces)
-    self.possible_moves = [] # possible moves that can be made
-  # allow GameState to be iterated through, elements are possible moves
-  def getValue(self):
-    return self.value_
+  def __init__(self, spaces, currentPlayer, lastMove):
+    self.spaces = deepcopy(spaces) # copy objects instead of references
+    self.currentPlayer = currentPlayer
+    self.lastMove = deepcopy(lastMove)
+  def setCurrentPlayer(self, currentPlayer): self.currentPlayer = currentPlayer
+  def getCurrentPlayer(self): return self.currentPlayer
+  def setSpaces(self, spaces): self.spaces = deepcopy(spaces)
+  def getSpaces(self): return self.spaces
+  def setLastMove(self, lastMove): self.lastMove = deepcopy(lastMove)
+  def getLastMove(self): return self.lastMove
   def __iter__(self):
-    return iter(self.possible_moves)
-  # used to determine if this MinMaxNode is == to another
-  def __eq__(self, other):
-    return (self.value == other.value)
-  # used to determine if this MinMaxNode is < another
-  def __lt__(self, other):
-    return (self.value < other.value)
-  def __getitem__(self, key):
-    for child in self:
-      if child.getValue() == key:
-        return child
+    return iter(self.spaces)

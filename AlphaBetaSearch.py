@@ -2,30 +2,49 @@
 # -*- coding: utf-8 -*-
 """
 @author: Richard Poulson
-Defines the MinMaxNode class, methods for that class, and the
-Alpha-Beta pruning algorithm for assigning values MinMaxNodes.
+Defines the AlphaBetaSearch (ABS) class.  ABS is given a CheckersBoard and
+makes a deep copy of it, so that it can work with the board without disrupting
+the game.  ABS is also given a GameHeuristic, which assigns a values to
+GameStates according to the algorithm within GameHeuristic.  What ABS's
+"search(GameState, Int)" method does is analyze possible GameStates and return
+a game "move" that is the most beneficial to the AI player.  The second argument
+for the search() method determines how many moves ahead the algorithm will
+analyze.  By changing the number of moves that the algorithm will look ahead,
+the difficulty of the AI player can be increased or decreased.
 
-https://docs.python.org/3/reference/datamodel.html#objects-values-and-types
+search() uses the minimax algorithm to traverse a GameState tree, with the
+value of each tree node set by the GameHeuristic.  search() also uses alpha-beta
+pruning to avoid analyzing branches of the tree that are unlikely (e.g. a player
+choosing to put themselves in a bad situation).
+
 https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+http://www.flyingmachinestudios.com/programming/minimax/
 """
 
-from sys import maxsize # maxsize used to compare other node values
-# from copy import copy # to make copies of alpha and beta
+from sys import maxsize # used to set bounds of node values
+from copy import copy, deepcopy # shallow or deep copy
+from AlphaBetaNode import AlphaBetaNode as Node
 
-class AlphaBetaSeach:
-  # at this point, the class has no attributes
-  def __init__(self):
-    pass
+class AlphaBetaSeach: # returns an Action
+  def __init__(self, checkersBoard, gameHeuristic):
+    # make a deep copy of the CheckersBoard to work with
+    self.checkersBoard = deepcopy(checkersBoard)
+    # store a reference to the GameHeuristic to use later
+    self.gameHeuristic = gameHeuristic
+  def Actions(self, node): # returns an iterator of Actions
+    possibleActions = {}
+    gameState = node.getValue() # the "value" of the Node is the GameState 
   def search(self, state, max_num_moves):
-    # hasn't made any moves yet, so set to 0
     initial_num_moves = 0
-    # Find the action that will lead to the state with the highest possible
-    # value.
-    highest_value = self.maxValue(state, -maxsize-1, maxsize, initial_num_moves, max_num_moves)
-    return state[highest_value]
-  def maxValue(self, state, alpha, beta, moves_so_far, max_num_moves):
-    if (moves_so_far >= max_num_moves): # have we looked far enough ahead?
-      return state.utilityValue() # if so, get the utility value for this state
+    initialNode = Node(None, state) # encapsulate GameState inside AlphaBetaNode
+    # Find the move that will result in the highest value (be the most
+    # beneficial to the AI player)
+    highest_value = self.maxValue(initialNode, initial_num_moves, max_num_moves)
+    return initialNode[highest_value] # get child node value that matches key
+  def maxValue(self, node, moves_so_far, max_num_moves):
+    if (moves_so_far == max_num_moves):
+      # get utility value for this state
+      return self.gameHeuristic.getUtilityValue(node.getValue())
     current_value = -maxsize - 1 # lowest possible value
     # current_alpha = copy(alpha) # make a copy so it doesn't reference original
     # current_num_moves = copy(moves_so_far) # ""
