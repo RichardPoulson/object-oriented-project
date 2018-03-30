@@ -99,6 +99,8 @@ class CheckersBoard(GameObservable):
     def printBoard(self):
 		#prototype gui checkerboard
         '''
+        def printBoard(can):
+		#prototype gui checkerboard
 		w=can.winfo_width()
 		h=can.winfo_height()
 		cellwidth = w/8
