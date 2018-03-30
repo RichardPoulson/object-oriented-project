@@ -8,9 +8,9 @@ class CheckersBoard(GameObservable):
 
     def __init__(self):
         self.observers = []
-        self.numRows = 8
-        self.numCols = 8
-        self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.numCols)] for j in range(0, self.numRows)]
+        self.maxRows = 7
+        self.maxCols = 7
+        self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.maxCols+1)] for j in range(0, self.maxRows+1)]
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
 
     def initializeGameBoard(self):
@@ -18,7 +18,7 @@ class CheckersBoard(GameObservable):
 
         pieceCounter = 0
         for i in range(0, 3):
-            for j in range(0, self.numCols, 2):
+            for j in range(0, self.maxCols, 2):
                 if ((i % 2) == 0):
                     # initialize player1 pieces for even rows
                     self.observers[0].addToPieceCollection('X{0:02d}'.format(pieceCounter), CheckersPiece(ID='X{0:02d}'.format(pieceCounter), owner=self.observers[0], location=(i, j+1)))
@@ -54,17 +54,22 @@ class CheckersBoard(GameObservable):
 
     def isValidMove(self, player, currentLocation, moveType):
         vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
-        if ((currentLocation[0]+vertical > self.numRows) or (currentLocation[0]+vertical < 0)):
+
+        if ((currentLocation[0]+vertical > self.maxRows) or (currentLocation[0]+vertical < 0)):
             return False
-        elif ((currentLocation[1]+horizontal > self.numCols) or (currentLocation[1]+horizontal < 0)):
+        elif ((currentLocation[1]+horizontal > self.maxCols) or (currentLocation[1]+horizontal < 0)):
             return False
+        elif (self.getSpaceByLocation(currentLocation[0]+vertical, currentLocation[1]+horizontal).getOccupancy()):
+            return False
+
         else:
+            if (moveType == 'moveRight' or moveType == 'moveLeft'):
+                return True
+
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
-                if ((jumpedSpace.getSpaceResident() != player) and (jumpedSpace.getSpaceResident() is not None)):
+                if (jumpedSpace.getSpaceResident() is not None) and (jumpedSpace.getSpaceResident().getOwner() != player):
                     return True
-            else:
-                return True
         return False
 
     def movePlayerPiece(self, piece, player, currentLocation, moveType):

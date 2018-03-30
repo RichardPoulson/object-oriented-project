@@ -38,5 +38,8 @@ class GameState:
         return child
 
   def getAvailableMoves(self):
-      for player in self.game_board.observers:
-          print(player.pieces)
+    for player in self.game_board.observers:
+        for piece in player.getPlayerPieces():
+            for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
+                if self.game_board.isValidMove(player, piece.getLocation(), moveType):
+                    self.possible_moves.append((piece, moveType))
