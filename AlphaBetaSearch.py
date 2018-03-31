@@ -22,14 +22,12 @@ http://www.flyingmachinestudios.com/programming/minimax/
 """
 
 from sys import maxsize # used to set bounds of node values
-from copy import copy, deepcopy # shallow or deep copy
+from copy import deepcopy # shallow or deep copy
 from AlphaBetaNode import AlphaBetaNode as Node
 
 class AlphaBetaSeach: # returns an Action
   def __init__(self, checkersBoard, gameHeuristic):
-    # make a deep copy of the CheckersBoard to work with
     self.checkersBoard = deepcopy(checkersBoard)
-    # store a reference to the GameHeuristic to use later
     self.gameHeuristic = gameHeuristic
   def Actions(self, node): # returns an iterator of Actions
     possibleActions = {}

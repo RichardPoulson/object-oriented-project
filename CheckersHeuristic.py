@@ -5,9 +5,17 @@ https://docs.python.org/3/library/abc.html
 from HeuristicFunction import HeuristicFunction
 
 class CheckersHeuristic(HeuristicFunction):
-  def __init__(self, computerPlayer, initialGameState):
-    self.computerPlayer = computerPlayer
-    self.initialGameState = initialGameState
+  def __init__(self, checkersBoard, computerPlayer):
+    self.setCheckersBoard(checkersBoard)
+    self.setComputerPlayer(computerPlayer)
+  def setCheckersBoard(self, newCheckersBoard):
+    self.checkersBoard = newCheckersBoard
+  def getCheckersBoard(self):
+    return self.checkersBoard
+  def setComputerPlayer(self, newComputerPlayer):
+    self.computerPlayer = newComputerPlayer
+  def getComputerPlayer(self):
+    return self.computerPlayer
   def getUtilityValue(self, GameState):
     utilityValue = 0
     for eachSpace in GameState:
