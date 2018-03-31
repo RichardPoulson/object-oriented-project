@@ -15,7 +15,7 @@ class GameState:
     self.setSpaces(self.getCheckersBoard().spaces)
     self.setCurrentPlayer(currentPlayer)
     self.setLastMove(lastMove)
-    self.possibleMoves = None
+    self.possibleMoves = []
   def setCheckersBoard(self, newCheckersBoard):
     self.checkersBoard = newCheckersBoard
   def getCheckersBoard(self, newCheckersBoard):
@@ -32,7 +32,18 @@ class GameState:
     self.lastMove = lastMove
   def getLastMove(self):
     return self.lastMove
+  def addPossibleMove(self, newPossibleMove):
+    self.possibleMoves.append(newPossibleMove)
+  def getPossibleMoves(self):
+    return self.possibleMoves
+  def clone(self): # returns a clone of itself
+    gameStateClone = GameState(self.getCheckersBoard(), self.getCurrentPlayer(),
+                               self.getLastMove())
+    for eachMove in self.getPossibleMoves():
+      gameStateClone.addPossibleMove(eachMove)
+    return gameStateClone
   def __iter__(self):
+    if(self.possibleMoves == )
     return iter(self.possible_moves)
   def getAvailableMoves(self):
     for player in self.getCheckersBoard().observers:
