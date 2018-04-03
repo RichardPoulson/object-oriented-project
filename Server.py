@@ -4,6 +4,7 @@ import pickle
 import sys
 from ClientSocket import *
 from CheckersBoard import *
+from Player import *
 
 class Server:
 
@@ -35,11 +36,10 @@ class Server:
 
     def clientInputHandler(self, clientSocket):
         while True:
-            if (len(self.clientConnections) == 2):
-                #data = clientSocket.recv(1024)
-                #for connection in self.clientConnections:
-                #    connection.send(bytes(data))
                 data = clientSocket.recv(1024)
+                #if isinstance(pickle.loads(data), Player):
+                #    self.game.addObserver(pickle.loads(data))
+                #    print("player data received")
                 for connection in self.clientConnections:
                     connection.send(data)
     '''

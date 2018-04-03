@@ -26,12 +26,15 @@ class GameController:
         #humanPlayer.addSelfToRemoteGame()
 
     def runRemoteGame(self):
+        self.server.game.addObserver(HumanPlayer('1'))
+        self.server.game.addObserver(HumanPlayer('2'))
         self.server.game.initializeGameBoard()
-        self.server.game.printBoard()
+        #self.server.game.printBoard()
 
-    def playAI(self, player):
-        self.setGame(CheckersBoard())
-        self.game.addObserver(player)
+    def playAI(self, humanPlayer):
+        #self.setGame(CheckersBoard())
+        #self.game.addObserver(humanPlayer)
+        #self.game.addObserver(AIPlayer())
         pass
 
     def runLocalGame(self):
