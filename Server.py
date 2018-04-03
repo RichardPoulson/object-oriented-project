@@ -36,9 +36,22 @@ class Server:
     def clientInputHandler(self, clientSocket):
         while True:
             if (len(self.clientConnections) == 2):
+                #data = clientSocket.recv(1024)
+                #for connection in self.clientConnections:
+                #    connection.send(bytes(data))
                 data = clientSocket.recv(1024)
                 for connection in self.clientConnections:
-                    connection.send(bytes(data))
+                    connection.send(data)
+    '''
+    def clientCommandHandler(self, clientSocket):
+        while True:
+            if (len(self.clientConnections) == 2):
+                cmd = clientSocket.recv(1024)
+                # change game state based on command
+                readOnlyGameState = pickle.dumps(self.game.getReadOnlyState())
+                for connection in self.clientConnections:
+                    connection.send(readOnlyGameState)
+    '''
 
     def acceptConnections(self, verbose=True):
         while True:

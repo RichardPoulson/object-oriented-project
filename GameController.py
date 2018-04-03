@@ -15,23 +15,26 @@ class GameController:
         self.game = newGame
 
     def hostGame(self, humanPlayer):
-        self.setGame(CheckersBoard())
-        self.server = Server(socket.gethostbyname(''), 10000, self.game)
+        self.server = Server(socket.gethostbyname(''), 10000, CheckersBoard())
+        self.setGame(self.server.game)
         self.server.run()
         humanPlayer.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 1)
-        #self.game.addObserver(player)
+        #humanPlayer.addSelfToRemoteGame()
 
     def joinGame(self, humanPlayer):
         humanPlayer.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 2)
-        time.sleep(1)
-        #self.game.addObserver(player)
+        #humanPlayer.addSelfToRemoteGame()
+
+    def runRemoteGame(self):
+        self.server.game.initializeGameBoard()
+        self.server.game.printBoard()
 
     def playAI(self, player):
         self.setGame(CheckersBoard())
         self.game.addObserver(player)
         pass
 
-    def runGame(self):
+    def runLocalGame(self):
         self.game.initializeGameBoard()
         self.game.printBoard()
 
@@ -43,19 +46,3 @@ class GameController:
                 pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
                 player.makeMove(self.game, pieceID, moveType)
-
-'''
-newGame = GameController()
-player1 = HumanPlayer('1')
-player2 = HumanPlayer('2')
-newGame.hostGame(player1)
-newGame.joinGame(player2)
-#newGame.runGame()
-
-player1.commSocket.sendMessage(input("Message 1: "))
-player1.commSocket.receiveMessage()
-player2.commSocket.receiveMessage()
-player2.commSocket.sendMessage(input("Message 2: "))
-player1.commSocket.receiveMessage()
-player2.commSocket.receiveMessage()
-'''

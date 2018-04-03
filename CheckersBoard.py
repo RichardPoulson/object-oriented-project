@@ -14,8 +14,6 @@ class CheckersBoard(GameObservable):
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
 
     def initializeGameBoard(self):
-        assert (len(self.observers) == 2), 'Must have two players to start game'
-
         pieceCounter = 0
         for i in range(0, 3):
             for j in range(0, self.maxCols, 2):
@@ -97,30 +95,6 @@ class CheckersBoard(GameObservable):
 
     #for testing
     def printBoard(self):
-		#prototype gui checkerboard
-        '''
-        def printBoard(can):
-		#prototype gui checkerboard
-		w=can.winfo_width()
-		h=can.winfo_height()
-		cellwidth = w/8
-		cellheight = h/8
-		for row in range(8):
-			for col in range(8):
-				if (row+col)%2 == 0:
-					can.create_rectangle(col*cellwidth, row*cellheight, (col+1)*cellwidth, (row+1)*cellheight, fill = 'black')
-				else:
-					can.create_rectangle(col*cellwidth, row*cellheight, (col+1)*cellwidth, (row+1)*cellheight, fill = 'red')
-        '''
         for row in self.spaces:
             print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident().ID for space in row])
         print()
-
-'''
-window = Tk()
-thecanvas = Canvas(window, width=500, height=500)
-thecanvas.grid(row=0, column=0)
-window.update_idletasks()
-printBoard(thecanvas)
-window.mainloop
-'''
