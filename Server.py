@@ -40,14 +40,15 @@ class Server:
                 for connection in self.clientConnections:
                     connection.send(bytes(data))
 
-    def acceptConnections(self):
+    def acceptConnections(self, verbose=True):
         while True:
             clientSocket, address = self.serverSocket.accept()
             clientHandlerThread = threading.Thread(target=self.clientInputHandler, args=(clientSocket,))
             clientHandlerThread.daemon = True
             clientHandlerThread.start()
             self.clientConnections.append(clientSocket)
-            print("recieved connection from {}:{}".format(address[0], address[1]))
+            if verbose:
+                print("recieved connection from {}:{}".format(address[0], address[1]))
 
     def removeConnection(self, clientSocket):
         for socket, i in enumerate(self.connections):

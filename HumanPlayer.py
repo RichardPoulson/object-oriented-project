@@ -6,6 +6,7 @@ class HumanPlayer(Player):
         self.id = playerID
         self.pieces = {}
         self.numPieces = 0
+        self.commSocket = None
 
     def getPlayerPieces(self):
         return [piece for pieceID, piece in self.pieces.items()]
