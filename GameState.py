@@ -48,6 +48,7 @@ class GameState:
   def getAvailableMoves(self):
     for player in self.getCheckersBoard().observers:
         for piece in player.getPlayerPieces():
+            # TODO: generalize moveType iteration
             for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
                 if self.getCheckersBoard().isValidMove(player, piece.getLocation(), moveType):
                     self.possible_moves.append((piece, moveType))
