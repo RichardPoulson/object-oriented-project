@@ -10,7 +10,6 @@ import time
 class GameController:
     def __init__(self):
         self.game = None
-        self.server = None
 
     def setGame(self, newGame):
         self.game = newGame
@@ -34,6 +33,8 @@ class GameController:
         self.game.initializeGameBoard()
         self.game.broadcastState()
 
+        '''
+        #The following needs to be done in a loop
         time.sleep(1)
         pieceID = input("Piece ID: ")
         moveType = input("Move Type: ")
@@ -44,6 +45,7 @@ class GameController:
         moveType = input("Move Type: ")
         self.game.observers[1].makeMove(self.game, pieceID, moveType)
         self.game.broadcastState()
+        '''
 
     def playAI(self, humanPlayer):
         #self.setGame(CheckersBoard())
@@ -60,3 +62,13 @@ class GameController:
                 pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
                 player.makeMove(self.game, pieceID, moveType)
+
+'''
+newGame = GameController()
+newGame.setGame(CheckersBoard())
+player1 = HumanPlayer('1')
+player2 = HumanPlayer('2')
+newGame.game.addObserver(player1)
+newGame.game.addObserver(player2)
+newGame.runLocalGame()
+'''
