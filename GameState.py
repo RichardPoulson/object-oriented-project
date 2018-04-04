@@ -43,8 +43,9 @@ class GameState:
       gameStateClone.addPossibleMove(eachMove)
     return gameStateClone
   def __iter__(self):
-    if(self.possibleMoves == )
-    return iter(self.possible_moves)
+    #if(self.possibleMoves == )
+    #return iter(self.possible_moves)
+    pass
   def getAvailableMoves(self):
     for player in self.getCheckersBoard().observers:
         for piece in player.getPlayerPieces():
