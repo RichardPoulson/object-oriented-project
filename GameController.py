@@ -1,4 +1,5 @@
 from CheckersBoard import *
+from RemoteCheckersBoard import *
 from HumanPlayer import *
 from Server import *
 from ClientSocket import *
@@ -15,11 +16,10 @@ class GameController:
         self.game = newGame
 
     def hostGame(self, user):
-        self.server = Server(socket.gethostbyname(''), 10000, CheckersBoard())
-        self.setGame(self.server.game)
-        self.server.run()
+        self.setGame(RemoteCheckersBoard(Server(socket.gethostbyname(''), 10000)))
+        self.game.getServer().run()
         user.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 1)
-        while (self.server.getNumberOfClientConnections() < 2):
+        while (self.game.getServer().getNumberOfClientConnections() < 2):
             print("waiting for user to join...")
             time.sleep(2)
         #humanPlayer.addSelfToRemoteGame()
@@ -29,9 +29,9 @@ class GameController:
         #humanPlayer.addSelfToRemoteGame()
 
     def runRemoteGame(self):
-        self.server.game.addObserver(HumanPlayer('1'))
-        self.server.game.addObserver(HumanPlayer('2'))
-        self.server.game.initializeGameBoard()
+        self.game.addObserver(HumanPlayer('1'))
+        self.game.addObserver(HumanPlayer('2'))
+        self.game.initializeGameBoard()
         #self.server.game.printBoard()
 
     def playAI(self, humanPlayer):

@@ -6,15 +6,12 @@ import numpy as np
 
 class RemoteCheckersBoard(GameObservable):
 
-    def __init__(self):
+    def __init__(self, server):
         self.observers = []
         self.maxRows = 7
         self.maxCols = 7
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.maxCols+1)] for j in range(0, self.maxRows+1)]
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
-        self.server = None
-
-    def setServer(self, server):
         self.server = server
 
     def getServer(self):

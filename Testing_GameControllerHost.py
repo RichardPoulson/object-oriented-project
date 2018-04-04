@@ -7,7 +7,7 @@ player1 = User()
 newGame.hostGame(player1)
 newGame.runRemoteGame()
 
-newGame.server.sendState()
+newGame.game.getServer().sendState()
 newState = player1.commSocket.fetchState()
 for row in newState:
     print(row)

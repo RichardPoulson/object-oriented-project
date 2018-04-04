@@ -8,14 +8,13 @@ from Player import *
 
 class Server:
 
-    def __init__(self, address, port, gameBoard):
+    def __init__(self, address, port):
         self.clientConnections = []
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.serverSocket.bind((address, port))
         self.serverSocket.listen()
         self.setAdress(address)
         self.setPort(port)
-        self.game = gameBoard
 
     def getAdress(self):
         return self.address
@@ -32,11 +31,13 @@ class Server:
     def getNumberOfClientConnections(self):
         return len(self.clientConnections)
 
+    '''
     def sendState(self):
         readOnlyGameState = pickle.dumps(self.game.getReadOnlyState())
         for connection in self.clientConnections:
             connection.send(readOnlyGameState)
-
+    '''
+    
     def clientInputHandler(self, clientSocket):
         while True:
                 data = clientSocket.recv(1024)
