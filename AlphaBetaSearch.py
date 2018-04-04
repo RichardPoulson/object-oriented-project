@@ -27,11 +27,10 @@ from AlphaBetaNode import AlphaBetaNode as Node
 
 class AlphaBetaSeach: # returns an Action
   def __init__(self, checkersBoard, gameHeuristic):
+    # reference for calling CheckersBoard methods
     self.checkersBoard = deepcopy(checkersBoard)
+    # responsible for assigning a heuristic value to GameStates
     self.gameHeuristic = gameHeuristic
-  def Actions(self, node): # returns an iterator of Actions
-    possibleActions = {}
-    gameState = node.getValue() # the "value" of the Node is the GameState 
   def search(self, state, max_num_moves):
     initial_num_moves = 0
     initialNode = Node(None, state) # encapsulate GameState inside AlphaBetaNode
