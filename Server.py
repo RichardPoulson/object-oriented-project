@@ -29,6 +29,9 @@ class Server:
     def setPort(self, port):
         self.port = port
 
+    def getNumberOfClientConnections(self):
+        return len(self.clientConnections)
+
     def sendState(self):
         readOnlyGameState = pickle.dumps(self.game.getReadOnlyState())
         for connection in self.clientConnections:

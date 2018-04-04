@@ -14,15 +14,18 @@ class GameController:
     def setGame(self, newGame):
         self.game = newGame
 
-    def hostGame(self, humanPlayer):
+    def hostGame(self, user):
         self.server = Server(socket.gethostbyname(''), 10000, CheckersBoard())
         self.setGame(self.server.game)
         self.server.run()
-        humanPlayer.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 1)
+        user.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 1)
+        while (self.server.getNumberOfClientConnections() < 2):
+            print("waiting for user to join...")
+            time.sleep(2)
         #humanPlayer.addSelfToRemoteGame()
 
-    def joinGame(self, humanPlayer):
-        humanPlayer.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 2)
+    def joinGame(self, user):
+        user.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 2)
         #humanPlayer.addSelfToRemoteGame()
 
     def runRemoteGame(self):
