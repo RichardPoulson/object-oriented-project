@@ -7,6 +7,6 @@ player2 = User()
 newGame.joinGame(player2)
 #newGame.runGame()
 
-newState = player2.commSocket.fetchState()
-for row in newState:
-    print(row)
+#newState = player2.commSocket.fetchState()
+#for row in newState:
+#    print(row)

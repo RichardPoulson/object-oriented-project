@@ -31,13 +31,12 @@ class Server:
     def getNumberOfClientConnections(self):
         return len(self.clientConnections)
 
-    '''
-    def sendState(self):
-        readOnlyGameState = pickle.dumps(self.game.getReadOnlyState())
+    def sendState(self, readOnlyState):
+        state = pickle.dumps(readOnlyState)
         for connection in self.clientConnections:
-            connection.send(readOnlyGameState)
-    '''
-    
+            connection.sendall(state)
+
+
     def clientInputHandler(self, clientSocket):
         while True:
                 data = clientSocket.recv(1024)

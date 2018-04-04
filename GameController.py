@@ -32,7 +32,18 @@ class GameController:
         self.game.addObserver(HumanPlayer('1'))
         self.game.addObserver(HumanPlayer('2'))
         self.game.initializeGameBoard()
-        #self.server.game.printBoard()
+        self.game.broadcastState()
+
+        time.sleep(1)
+        pieceID = input("Piece ID: ")
+        moveType = input("Move Type: ")
+        self.game.observers[0].makeMove(self.game, pieceID, moveType)
+        self.game.broadcastState()
+
+        pieceID = input("Piece ID: ")
+        moveType = input("Move Type: ")
+        self.game.observers[1].makeMove(self.game, pieceID, moveType)
+        self.game.broadcastState()
 
     def playAI(self, humanPlayer):
         #self.setGame(CheckersBoard())
@@ -43,9 +54,6 @@ class GameController:
     def runLocalGame(self):
         self.game.initializeGameBoard()
         self.game.printBoard()
-
-        gs = GameState(None, None, self.game)
-        gs.getAvailableMoves()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:

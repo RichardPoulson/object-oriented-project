@@ -90,12 +90,15 @@ class RemoteCheckersBoard(GameObservable):
         else:
             print('invalid move')
 
-        self.notifyObservers()
+        #self.notifyObservers()
 
         return currentLocation
 
     def getReadOnlyState(self):
         return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident().getID() for space in row] for row in self.spaces])
+
+    def broadcastState(self):
+        self.server.sendState(self.getReadOnlyState())
 
     #for testing
     def printBoard(self):
