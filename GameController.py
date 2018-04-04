@@ -47,8 +47,7 @@ class GameController:
         self.game.broadcastState()
         '''
 
-<<<<<<< HEAD
-=======
+
     def playAI(self, humanPlayer):
         #self.setGame(CheckersBoard())
         #self.game.addObserver(humanPlayer)
@@ -59,13 +58,11 @@ class GameController:
         self.game.initializeGameBoard()
         self.game.printBoard()
 
->>>>>>> serverIntegration
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:
                 pieceID = input("Piece ID: ")
                 moveType = input("Move Type: ")
                 player.makeMove(self.game, pieceID, moveType)
-
 '''
 newGame = GameController()
 newGame.setGame(CheckersBoard())
