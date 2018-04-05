@@ -10,6 +10,7 @@ import time
 class GameController:
     def __init__(self):
         self.game = None
+        #self.view = view
 
     def setGame(self, newGame):
         self.game = newGame
@@ -21,20 +22,39 @@ class GameController:
         while (self.game.getServer().getNumberOfClientConnections() < 2):
             print("waiting for user to join...")
             time.sleep(2)
-        #humanPlayer.addSelfToRemoteGame()
+        self.runRemoteGame(user)
 
     def joinGame(self, user):
         user.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 2)
-        #humanPlayer.addSelfToRemoteGame()
+        while True:
+            pieceID = input("pieceID: ")
+            moveType = input("moveType: ")
+            user.commSocket.clientSocket.send(pickle.dumps(pieceID))
+            user.commSocket.clientSocket.send(pickle.dumps(moveType))
 
-    def runRemoteGame(self):
+    def runRemoteGame(self, user):
         self.game.addObserver(HumanPlayer('1'))
         self.game.addObserver(HumanPlayer('2'))
         self.game.initializeGameBoard()
         self.game.broadcastState()
 
+        #time.sleep(1)
+        #self.game.getServer().clientConnections[0].send(pickle.dumps('hi'))
+        #self.game.getServer().clientConnections[0].send(pickle.dumps(input("moveType: ")))
+
+        #time.sleep(5)
+        #self.game.observers[1].makeMove(self.game, self.game.getServer().commandQueue[0], self.game.getServer().commandQueue[1])
+        #self.game.broadcastState()
+
+        #player = self.game.observers[0]
+        #conn = self.game.getServer().clientConnections[1]
+        #self.game.getServer().getCommand(conn)
         '''
         #The following needs to be done in a loop
+        while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
+            for connection, player in zip(self.game.getServer().clientConnections, elf.game.observers):
+                pass
+
         time.sleep(1)
         pieceID = input("Piece ID: ")
         moveType = input("Move Type: ")
@@ -46,6 +66,7 @@ class GameController:
         self.game.observers[1].makeMove(self.game, pieceID, moveType)
         self.game.broadcastState()
         '''
+
 
     def playAI(self, humanPlayer):
         #self.setGame(CheckersBoard())
