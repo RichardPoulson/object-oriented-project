@@ -15,11 +15,7 @@ class Server:
         self.serverSocket.listen()
         self.setAdress(address)
         self.setPort(port)
-
-        self.commandQueue = []
-        self.player1commandQueue = []
-        self.player2commandQueue = []
-
+        self.commandQueue = {'hostingUser': [], 'joiningUser': []}
 
     def getAdress(self):
         return self.address
@@ -36,8 +32,6 @@ class Server:
     def getNumberOfClientConnections(self):
         return len(self.clientConnections)
 
-    #def recieveCommand()
-
     def sendState(self, readOnlyState):
         state = pickle.dumps(readOnlyState)
         for connection in self.clientConnections:
@@ -46,21 +40,9 @@ class Server:
 
     def clientInputHandler(self, clientSocket):
         while True:
-                data = clientSocket.recv(1024)
-                #for connection in self.clientConnections:
-                #    connection.send(data)
-                self.commandQueue.append(pickle.loads(data))
-
-    '''
-    def clientCommandHandler(self, clientSocket):
-        while True:
-            if (len(self.clientConnections) == 2):
-                cmd = clientSocket.recv(1024)
-                # change game state based on command
-                readOnlyGameState = pickle.dumps(self.game.getReadOnlyState())
-                for connection in self.clientConnections:
-                    connection.send(readOnlyGameState)
-    '''
+            data = clientSocket.recv(1024)
+            userKey, pieceID, moveType = pickle.loads(data)
+            self.commandQueue[userKey].append((pieceID, moveType))
 
     def acceptConnections(self, verbose=True):
         while True:

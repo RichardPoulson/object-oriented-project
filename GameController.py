@@ -29,8 +29,7 @@ class GameController:
         while True:
             pieceID = input("pieceID: ")
             moveType = input("moveType: ")
-            user.commSocket.clientSocket.send(pickle.dumps(pieceID))
-            user.commSocket.clientSocket.send(pickle.dumps(moveType))
+            user.commSocket.clientSocket.send(pickle.dumps(('joiningUser', pieceID, moveType)))
 
     def runRemoteGame(self, user):
         self.game.addObserver(HumanPlayer('1'))
@@ -38,34 +37,25 @@ class GameController:
         self.game.initializeGameBoard()
         self.game.broadcastState()
 
-        #time.sleep(1)
-        #self.game.getServer().clientConnections[0].send(pickle.dumps('hi'))
-        #self.game.getServer().clientConnections[0].send(pickle.dumps(input("moveType: ")))
-
-        #time.sleep(5)
-        #self.game.observers[1].makeMove(self.game, self.game.getServer().commandQueue[0], self.game.getServer().commandQueue[1])
-        #self.game.broadcastState()
-
-        #player = self.game.observers[0]
-        #conn = self.game.getServer().clientConnections[1]
-        #self.game.getServer().getCommand(conn)
-        '''
-        #The following needs to be done in a loop
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
-            for connection, player in zip(self.game.getServer().clientConnections, elf.game.observers):
-                pass
 
-        time.sleep(1)
-        pieceID = input("Piece ID: ")
-        moveType = input("Move Type: ")
-        self.game.observers[0].makeMove(self.game, pieceID, moveType)
-        self.game.broadcastState()
+            pieceID = input("pieceID: ")
+            moveType = input("moveType: ")
+            user.commSocket.clientSocket.send(pickle.dumps(('hostingUser', pieceID, moveType)))
 
-        pieceID = input("Piece ID: ")
-        moveType = input("Move Type: ")
-        self.game.observers[1].makeMove(self.game, pieceID, moveType)
-        self.game.broadcastState()
-        '''
+            while (len(self.game.getServer().commandQueue['hostingUser']) < 1):
+                continue
+
+            pieceToMove, moveType = self.game.getServer().commandQueue['hostingUser'].pop(0)
+            self.game.observers[0].makeMove(self.game, pieceToMove, moveType)
+            self.game.broadcastState()
+
+            while (len(self.game.getServer().commandQueue['joiningUser']) < 1):
+                continue
+
+            pieceToMove, moveType = self.game.getServer().commandQueue['joiningUser'].pop(0)
+            self.game.observers[1].makeMove(self.game, pieceToMove, moveType)
+            self.game.broadcastState()
 
 
     def playAI(self, humanPlayer):
