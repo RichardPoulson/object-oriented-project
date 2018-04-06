@@ -29,8 +29,14 @@ class Server:
     def setPort(self, port):
         self.port = port
 
+    def getCommandQueue(self):
+        return self.commandQueue
+
     def getNumberOfClientConnections(self):
         return len(self.clientConnections)
+
+    def getNumberCommandsInQueue(self, userKey):
+        return len(self.getCommandQueue()[userKey])
 
     def sendState(self, readOnlyState):
         state = pickle.dumps(readOnlyState)

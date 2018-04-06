@@ -29,7 +29,7 @@ class GameController:
         while True:
             pieceID = input("pieceID: ")
             moveType = input("moveType: ")
-            user.commSocket.clientSocket.send(pickle.dumps(('joiningUser', pieceID, moveType)))
+            user.commSocket.sendCommand(('joiningUser', pieceID, moveType))
 
     def runRemoteGame(self, user):
         self.game.initializeGameBoard(HumanPlayer('1'), HumanPlayer('2'))
@@ -39,16 +39,16 @@ class GameController:
 
             pieceID = input("pieceID: ")
             moveType = input("moveType: ")
-            user.commSocket.clientSocket.send(pickle.dumps(('hostingUser', pieceID, moveType)))
+            user.commSocket.sendCommand(('hostingUser', pieceID, moveType))
 
-            while (len(self.game.getServer().commandQueue['hostingUser']) < 1):
+            while (self.game.getServer().getNumberCommandsInQueue('hostingUser') < 1):
                 continue
 
             pieceToMove, moveType = self.game.getServer().commandQueue['hostingUser'].pop(0)
             self.game.observers[0].makeMove(self.game, pieceToMove, moveType)
             self.game.broadcastState()
 
-            while (len(self.game.getServer().commandQueue['joiningUser']) < 1):
+            while (self.game.getServer().getNumberCommandsInQueue('joiningUser') < 1):
                 continue
 
             pieceToMove, moveType = self.game.getServer().commandQueue['joiningUser'].pop(0)
