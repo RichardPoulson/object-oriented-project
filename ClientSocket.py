@@ -5,8 +5,7 @@ from CheckersBoard import *
 
 class ClientSocket:
 
-    def __init__(self, address, port, ID):
-        self.id = ID
+    def __init__(self, address, port):
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clientSocket.connect((address, port))
 
@@ -23,7 +22,6 @@ class ClientSocket:
 
     def sendMessage(self, message):
         self.clientSocket.sendall(pickle.dumps(message))
-        #self.clientSocket.send(bytes(message, 'utf-8'))
 
     def sendCommand(self, command):
         self.clientSocket.sendall(pickle.dumps(command))
@@ -31,7 +29,6 @@ class ClientSocket:
     def receiveMessage(self):
         data = pickle.loads(self.clientSocket.recv(1024))
         print("Client {} recieved: ".format(self.id), data)
-        #print("Client {} recieved: ".format(self.id), str(data, 'utf-8'))
         return data
 
     def fetchState(self):

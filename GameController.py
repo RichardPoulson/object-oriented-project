@@ -15,25 +15,23 @@ class GameController:
     def setGame(self, newGame):
         self.game = newGame
 
-    def hostGame(self, user):
-        self.setGame(RemoteCheckersBoard(Server(socket.gethostbyname(''), 10000)))
+    def hostGame(self, user, address, port):
+        self.setGame(RemoteCheckersBoard(Server(address, port)))
         self.game.getServer().run()
-        user.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 1)
+        user.commSocket = ClientSocket(address, port)
         while (self.game.getServer().getNumberOfClientConnections() < 2):
             print("waiting for user to join...")
             time.sleep(2)
         self.runRemoteGame(user)
 
-    def joinGame(self, user):
-        user.commSocket = ClientSocket(socket.gethostbyname(''), 10000, 2)
+    def joinGame(self, user, address, port):
+        user.commSocket = ClientSocket(address, port)
         while True:
             pieceID = input("pieceID: ")
             moveType = input("moveType: ")
             user.commSocket.clientSocket.send(pickle.dumps(('joiningUser', pieceID, moveType)))
 
     def runRemoteGame(self, user):
-        #self.game.addObserver(HumanPlayer('1'))
-        #self.game.addObserver(HumanPlayer('2'))
         self.game.initializeGameBoard(HumanPlayer('1'), HumanPlayer('2'))
         self.game.broadcastState()
 
