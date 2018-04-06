@@ -3,7 +3,6 @@ from RemoteCheckersBoard import *
 from HumanPlayer import *
 from Server import *
 from ClientSocket import *
-#from GameState import *
 
 import time
 
@@ -45,6 +44,8 @@ class GameController:
                 continue
 
             pieceToMove, moveType = self.game.getServer().commandQueue['hostingUser'].pop(0)
+
+            # TODO: add a method to game to get which observer's turn it is?
             self.game.observers[0].makeMove(self.game, pieceToMove, moveType)
             self.game.broadcastState()
 
@@ -58,9 +59,6 @@ class GameController:
 
 
     def playAI(self, humanPlayer):
-        #self.setGame(CheckersBoard())
-        #self.game.addObserver(humanPlayer)
-        #self.game.addObserver(AIPlayer())
         pass
 
     def runLocalGame(self):

@@ -1,4 +1,6 @@
-# Testing
+import sys
+sys.path.append('../')
+
 from Server import *
 from ClientSocket import *
 from CheckersBoard import *
