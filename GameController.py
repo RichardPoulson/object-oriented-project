@@ -32,9 +32,9 @@ class GameController:
             user.commSocket.clientSocket.send(pickle.dumps(('joiningUser', pieceID, moveType)))
 
     def runRemoteGame(self, user):
-        self.game.addObserver(HumanPlayer('1'))
-        self.game.addObserver(HumanPlayer('2'))
-        self.game.initializeGameBoard()
+        #self.game.addObserver(HumanPlayer('1'))
+        #self.game.addObserver(HumanPlayer('2'))
+        self.game.initializeGameBoard(HumanPlayer('1'), HumanPlayer('2'))
         self.game.broadcastState()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):

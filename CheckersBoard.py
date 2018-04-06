@@ -13,7 +13,10 @@ class CheckersBoard(GameObservable):
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.maxCols+1)] for j in range(0, self.maxRows+1)]
         self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
 
-    def initializeGameBoard(self):
+    def initializeGameBoard(self, player1, player2):
+        self.addObserver(player1)
+        self.addObserver(player2)
+
         pieceCounter = 0
         for i in range(0, 3):
             for j in range(0, self.maxCols, 2):

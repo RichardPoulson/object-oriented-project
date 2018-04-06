@@ -26,7 +26,7 @@ class GameObservable(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def initializeGameBoard(self):
+    def initializeGameBoard(self, player1, player2):
         pass
 
     @abstractmethod
