@@ -64,28 +64,15 @@ class GameController:
             self.game.observers[1].makeMove(self.game, pieceToMove, moveType)
             self.game.broadcastState()
 
-
-
     def playAI(self, humanPlayer):
         pass
 
     def runLocalGame(self):
-        self.game.initializeGameBoard()
+        # TODO: make one of the players an AI player
+        self.game.initializeGameBoard(HumanPlayer('1'), HumanPlayer('1'))
         self.game.printBoard()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:
-                pieceID = input("Piece ID: ")
-                moveType = input("Move Type: ")
+                pieceID, moveType = self.view.getPlayerMove()
                 player.makeMove(self.game, pieceID, moveType)
-
-'''
-newGame = GameController()
-newGame.startApplication()
-newGame.setGame(CheckersBoard())
-player1 = HumanPlayer('1')
-player2 = HumanPlayer('2')
-newGame.game.addObserver(player1)
-newGame.game.addObserver(player2)
-newGame.runLocalGame()
-'''
