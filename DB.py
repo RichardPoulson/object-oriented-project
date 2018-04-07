@@ -4,7 +4,7 @@ from DBInterface import *
 
 class DB(implements(DBInterface)):
     def __init__(self):
-        self.connection = pymysql.connect(host='sql3.freemysqlhosting.net', user='sql3231332', password='TfzATskluT', db='sql3231332')
+        self.connection = pymysql.connect(host='', user='', password='', db='')
         self.cursor = self.connection.cursor()
 
     def executeInsertionQuery(self, query):
