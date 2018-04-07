@@ -5,9 +5,9 @@ from MoveStrategyFactory import *
 
 factory = MoveStrategyFactory('matrix')
 
-for playerNumber in ['player1', 'player2']:
+for playerNumber in [1, 2]:
     for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
-        print("{} {}: {}".format(playerNumber, moveType, factory.getMoveStrategy(playerNumber, moveType).locationChange()))
+        print("Player {} {}: {}".format(playerNumber, moveType, factory.getMoveStrategy(playerNumber, moveType).locationChange()))
 
 '''
 key:

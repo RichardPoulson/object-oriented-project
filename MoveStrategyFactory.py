@@ -17,13 +17,13 @@ class MoveStrategyFactory:
             return self.getMatrixMoveStrategy(playerNumber, moveType)
 
     def getMatrixMoveStrategy(self, playerNumber, moveType):
-        if (playerNumber == 'player1'):
+        if (playerNumber == 1):
             if (moveType == 'moveLeft'): return MatrixMoveLeftPlayer1()
             elif (moveType == 'moveRight'): return MatrixMoveRightPlayer1()
             elif (moveType == 'jumpLeft'): return MatrixJumpLeftPlayer1()
             elif(moveType == 'jumpRight'): return MatrixJumpRightPlayer1()
 
-        elif (playerNumber == 'player2'):
+        elif (playerNumber == 2):
             if (moveType == 'moveLeft'): return MatrixMoveLeftPlayer2()
             elif (moveType == 'moveRight'): return MatrixMoveRightPlayer2()
             elif (moveType == 'jumpLeft'): return MatrixJumpLeftPlayer2()

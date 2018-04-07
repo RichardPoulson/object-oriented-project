@@ -2,7 +2,9 @@ from abc import ABCMeta, abstractmethod
 
 class GameObservable(metaclass=ABCMeta):
 
-    observers = []
+    def __init__(self):
+        self.observers = []
+        self.moveStrategyFactory = None
 
     def addObserver(self, player):
         self.observers.append(player)

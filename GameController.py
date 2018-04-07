@@ -41,7 +41,7 @@ class GameController:
             user.commSocket.sendCommand(('joiningUser', pieceID, moveType))
 
     def runRemoteGame(self, user):
-        self.game.initializeGameBoard(HumanPlayer('1'), HumanPlayer('2'))
+        self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
         self.game.broadcastState()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
@@ -69,7 +69,7 @@ class GameController:
 
     def runLocalGame(self):
         # TODO: make one of the players an AI player
-        self.game.initializeGameBoard(HumanPlayer('1'), HumanPlayer('1'))
+        self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
         self.game.printBoard()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):

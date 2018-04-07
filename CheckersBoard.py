@@ -2,6 +2,7 @@ from GameObservable import *
 from PieceFactory import *
 from Space import *
 from PieceFactory import *
+from MoveStrategyFactory import *
 import numpy as np
 
 class CheckersBoard(GameObservable):
@@ -11,7 +12,15 @@ class CheckersBoard(GameObservable):
         self.maxRows = 7
         self.maxCols = 7
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.maxCols+1)] for j in range(0, self.maxRows+1)]
-        self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
+        self.moveStrategyFactory = MoveStrategyFactory('matrix')
+        self.moveStrategy = None
+        #self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
+
+    def getMoveStrategy(self):
+        return self.moveStrategy
+
+    def setMoveStrategy(self, strategy):
+        self.moveStrategy = strategy
 
     def initializeGameBoard(self, player1, player2):
         self.addObserver(player1)
@@ -54,7 +63,9 @@ class CheckersBoard(GameObservable):
         return returnSpace
 
     def isValidMove(self, player, currentLocation, moveType):
-        vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
+        self.setMoveStrategy(self.moveStrategyFactory.getMoveStrategy(player.id, moveType))
+        vertical, horizontal = self.getMoveStrategy().locationChange()
+        #vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
 
         if ((currentLocation[0]+vertical > self.maxRows) or (currentLocation[0]+vertical < 0)):
             return False
@@ -74,7 +85,9 @@ class CheckersBoard(GameObservable):
         return False
 
     def movePlayerPiece(self, piece, player, currentLocation, moveType):
-        vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
+        self.setMoveStrategy(self.moveStrategyFactory.getMoveStrategy(player.id, moveType))
+        vertical, horizontal = self.getMoveStrategy().locationChange()
+        #vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
         if self.isValidMove(player, currentLocation, moveType):
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 # remove opponent piece, move piece

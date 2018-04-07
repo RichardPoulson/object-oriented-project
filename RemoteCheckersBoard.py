@@ -15,7 +15,8 @@ class RemoteCheckersBoard(CheckersBoard):
         return self.server
 
     def movePlayerPiece(self, piece, player, currentLocation, moveType):
-        vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
+        self.setMoveStrategy(self.moveStrategyFactory.getMoveStrategy(player.id, moveType))
+        vertical, horizontal = self.getMoveStrategy().locationChange()
         if self.isValidMove(player, currentLocation, moveType):
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 # remove opponent piece, move piece

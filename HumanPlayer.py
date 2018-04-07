@@ -24,3 +24,4 @@ class HumanPlayer(Player):
 
     def update(self, gameBoard):
         gameBoard.printBoard()
+        #pass
