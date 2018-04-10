@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-https://docs.python.org/3/library/abc.html
+This class implements GameHeuristic and is responsible for
+assigning a utility value to the current state of a given
+checkers board.
 """
-from HeuristicFunction import HeuristicFunction
+from GameHeuristic import GameHeuristic
 
-class CheckersHeuristic(HeuristicFunction):
+class CheckersHeuristic(GameHeuristic):
   def __init__(self, checkersBoard, computerPlayer):
     self.setCheckersBoard(checkersBoard)
     self.setComputerPlayer(computerPlayer)
@@ -16,19 +18,11 @@ class CheckersHeuristic(HeuristicFunction):
     self.computerPlayer = newComputerPlayer
   def getComputerPlayer(self):
     return self.computerPlayer
-  def getUtilityValue(self, GameState):
+  def getUtilityValue(self, checkersBoard):
     utilityValue = 0
-    for eachSpace in GameState:
-      if (eachSpace.getOccupancy()):
-        current_piece = eachSpace.getSpaceResident()
-        if (current_piece.getOwner() == self.computerPlayer):
-          if(current_piece.isKing()):
-            utilityValue +=2
-          else:
-            utilityValue += 1
-        else:
-          if(current_piece.isKing()):
-            utilityValue -= 2
-          else:
-            utilityValue -= 1
+    for eachPlayer in self.checkersBoard.observers:
+      if (eachPlayer == self.computerPlayer):
+        utilityValue += eachPlayer.getNumPieces()
+      else:
+        utilityValue -= eachPlayer.getNumPieces()
     return utilityValue
