@@ -4,6 +4,7 @@ from Space import *
 from PieceFactory import *
 from MoveStrategyFactory import *
 import numpy as np
+from copy import deepcopy
 
 class CheckersBoard(GameObservable):
 
@@ -105,6 +106,9 @@ class CheckersBoard(GameObservable):
         self.notifyObservers()
 
         return currentLocation
+
+    def getCurrentGameState(self):
+        return deepcopy(self)
 
     def getReadOnlyState(self):
         return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident().getID() for space in row] for row in self.spaces])

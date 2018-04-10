@@ -70,9 +70,13 @@ class GameController:
     def runLocalGame(self):
         # TODO: make one of the players an AI player
         self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
+        self.game.notifyObservers()
+
         self.game.printBoard()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:
                 pieceID, moveType = self.view.getPlayerMove()
                 player.makeMove(self.game, pieceID, moveType)
+
+                self.game.printBoard()

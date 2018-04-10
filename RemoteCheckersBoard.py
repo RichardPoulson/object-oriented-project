@@ -13,7 +13,7 @@ class RemoteCheckersBoard(CheckersBoard):
 
     def getServer(self):
         return self.server
-
+    '''
     def movePlayerPiece(self, piece, player, currentLocation, moveType):
         self.setMoveStrategy(self.moveStrategyFactory.getMoveStrategy(player.id, moveType))
         vertical, horizontal = self.getMoveStrategy().locationChange()
@@ -32,6 +32,6 @@ class RemoteCheckersBoard(CheckersBoard):
             print('invalid move')
 
         return currentLocation
-
+    '''
     def broadcastState(self):
         self.server.sendState(self.getReadOnlyState())
