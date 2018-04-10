@@ -84,6 +84,15 @@ class CheckersBoard(GameObservable):
                     return True
         return False
 
+    def getAvailableMoves(self):
+        availableMoves = []
+        for player in self.observers:
+            for piece in player.getPlayerPieces():
+                for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
+                    if self.isValidMove(player, piece.getLocation(), moveType):
+                        availableMoves.append((piece, moveType))
+        return availableMoves
+
     def movePlayerPiece(self, piece, player, currentLocation, moveType):
         self.setMoveStrategy(self.moveStrategyFactory.getMoveStrategy(player.id, moveType))
         vertical, horizontal = self.getMoveStrategy().locationChange()
