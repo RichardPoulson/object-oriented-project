@@ -4,6 +4,7 @@ from Space import *
 from PieceFactory import *
 from MoveStrategyFactory import *
 import numpy as np
+from copy import deepcopy
 
 class CheckersBoard(GameObservable):
 
@@ -14,7 +15,6 @@ class CheckersBoard(GameObservable):
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.maxCols+1)] for j in range(0, self.maxRows+1)]
         self.moveStrategyFactory = MoveStrategyFactory('matrix')
         self.moveStrategy = None
-        #self.moveOptions = [{'moveLeft':(1,1), 'moveRight':(1,-1), 'jumpLeft':(2,2), 'jumpRight':(2,-2)}, {'moveLeft':(-1,-1), 'moveRight':(-1,1), 'jumpLeft':(-2,-2), 'jumpRight':(-2,2)}]
 
     def getMoveStrategy(self):
         return self.moveStrategy
@@ -84,6 +84,15 @@ class CheckersBoard(GameObservable):
                     return True
         return False
 
+    def getAvailableMoves(self):
+        availableMoves = []
+        for player in self.observers:
+            for piece in player.getPlayerPieces():
+                for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
+                    if self.isValidMove(player, piece.getLocation(), moveType):
+                        availableMoves.append((piece, moveType))
+        return availableMoves
+
     def movePlayerPiece(self, piece, player, currentLocation, moveType):
         self.setMoveStrategy(self.moveStrategyFactory.getMoveStrategy(player.id, moveType))
         vertical, horizontal = self.getMoveStrategy().locationChange()
@@ -105,6 +114,9 @@ class CheckersBoard(GameObservable):
         self.notifyObservers()
 
         return currentLocation
+
+    def getCurrentGameState(self):
+        return deepcopy(self)
 
     def getReadOnlyState(self):
         return ([['---' if (space.getSpaceResident() is None) else space.getSpaceResident().getID() for space in row] for row in self.spaces])

@@ -13,3 +13,10 @@ class View:
         pieceID = input("pieceID: ")
         moveType = input("moveType: ")
         return (pieceID, moveType)
+
+    def displayBoard(self, readOnlyBoard):
+        for row in readOnlyBoard:
+            print(row)
+
+    def displayStatus(self, statusMsg):
+        print(statusMsg)

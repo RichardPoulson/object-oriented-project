@@ -30,7 +30,7 @@ class GameController:
         self.game.getServer().run()
         user.commSocket = ClientSocket(address, port)
         while (self.game.getServer().getNumberOfClientConnections() < 2):
-            print("waiting for user to join...")
+            self.view.displayStatus('waiting for user to join...')
             time.sleep(2)
         self.runRemoteGame(user)
 
@@ -70,9 +70,13 @@ class GameController:
     def runLocalGame(self):
         # TODO: make one of the players an AI player
         self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
-        self.game.printBoard()
+        self.game.notifyObservers()
+
+        self.view.displayBoard(self.game.getReadOnlyState())
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:
                 pieceID, moveType = self.view.getPlayerMove()
                 player.makeMove(self.game, pieceID, moveType)
+
+                self.view.displayBoard(self.game.getReadOnlyState())
