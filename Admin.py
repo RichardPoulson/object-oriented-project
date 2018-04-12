@@ -11,14 +11,28 @@ class Admin(object):
 		self.dbClient = dbClient
 
 
-	def register(username, password):
-		return 0
+	def register():
+		while(True):
+			username = input("New username: ")
+			if(len(username <= 0)):
+				print("Must enter Username ")
+				continue
+			break
+		while(True):
+			password = input("New password: ")
+			if(len(password <= 0)):
+				print(Must enter password)
+				continue
+			break
+
+
+
 
 	def login(username, password):
 		while True:
 			username = input("Please enter your username: ")
 			password = input("Please enter your password: ")
-			#make connection
+			#make connection?? no db file
 			with sqlite3.connect("Login.db") as db:
 				#cursor will run the querys
 				cursor = db.cursor
