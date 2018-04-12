@@ -2,7 +2,9 @@ from abc import ABCMeta, abstractmethod
 
 class GameObservable(metaclass=ABCMeta):
 
-    observers = []
+    def __init__(self):
+        self.observers = []
+        self.moveStrategyFactory = None
 
     def addObserver(self, player):
         self.observers.append(player)
@@ -26,7 +28,7 @@ class GameObservable(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def initializeGameBoard(self):
+    def initializeGameBoard(self, player1, player2):
         pass
 
     @abstractmethod

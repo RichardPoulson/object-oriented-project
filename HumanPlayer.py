@@ -6,6 +6,10 @@ class HumanPlayer(Player):
         self.id = playerID
         self.pieces = {}
         self.numPieces = 0
+        self.currentGameState = None
+
+    def getPlayerPieces(self):
+        return [piece for pieceID, piece in self.pieces.items()]
 
     def getNumPieces(self):
         return self.numPieces
@@ -20,4 +24,6 @@ class HumanPlayer(Player):
         self.pieces[pieceID].movePiece(gameBoard, self, moveType)
 
     def update(self, gameBoard):
-        gameBoard.printBoard()
+        #gameBoard.printBoard()
+        self.currentGameState = gameBoard
+        #pass

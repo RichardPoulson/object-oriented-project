@@ -1,33 +1,82 @@
 from CheckersBoard import *
+from RemoteCheckersBoard import *
 from HumanPlayer import *
+from Server import *
+from ClientSocket import *
+from view.View import *
+
+import time
+
 
 class GameController:
     def __init__(self):
         self.game = None
+        self.view = View()
+
+    def startApplication(self):
+        userInput = self.view.displayStartScreen()
+        if (userInput == 1):
+            pass
+        elif (userInput == 2):
+            pass
+        else:
+            self.view.displayStartScreen()
 
     def setGame(self, newGame):
         self.game = newGame
 
-    def hostGame(self, player):
-        self.setGame(CheckersBoard())
-        self.game.addObserver(player)
+    def hostGame(self, user, address, port):
+        self.setGame(RemoteCheckersBoard(Server(address, port)))
+        self.game.getServer().run()
+        user.commSocket = ClientSocket(address, port)
+        while (self.game.getServer().getNumberOfClientConnections() < 2):
+            self.view.displayStatus('waiting for user to join...')
+            time.sleep(2)
+        self.runRemoteGame(user)
 
-    def joinGame(self, player):
-        self.game.addObserver(player)
+    def joinGame(self, user, address, port):
+        user.commSocket = ClientSocket(address, port)
+        while True:
+            pieceID, moveType = self.view.getPlayerMove()
+            user.commSocket.sendCommand(('joiningUser', pieceID, moveType))
 
-    def runGame(self):
-        self.game.initializeGameBoard()
-        self.game.printBoard()
+    def runRemoteGame(self, user):
+        self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
+        self.game.broadcastState()
+
+        while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
+            pieceID, moveType = self.view.getPlayerMove()
+            user.commSocket.sendCommand(('hostingUser', pieceID, moveType))
+
+            while (self.game.getServer().getNumberCommandsInQueue('hostingUser') < 1):
+                continue
+
+            pieceToMove, moveType = self.game.getServer().commandQueue['hostingUser'].pop(0)
+
+            # TODO: add a method to game to get which observer's turn it is?
+            self.game.observers[0].makeMove(self.game, pieceToMove, moveType)
+            self.game.broadcastState()
+
+            while (self.game.getServer().getNumberCommandsInQueue('joiningUser') < 1):
+                continue
+
+            pieceToMove, moveType = self.game.getServer().commandQueue['joiningUser'].pop(0)
+            self.game.observers[1].makeMove(self.game, pieceToMove, moveType)
+            self.game.broadcastState()
+
+    def playAI(self, humanPlayer):
+        pass
+
+    def runLocalGame(self):
+        # TODO: make one of the players an AI player
+        self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
+        self.game.notifyObservers()
+
+        self.view.displayBoard(self.game.getReadOnlyState())
+
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
             for player in self.game.observers:
-                pieceID = input("Piece ID: ")
-                moveType = input("Move Type: ")
+                pieceID, moveType = self.view.getPlayerMove()
                 player.makeMove(self.game, pieceID, moveType)
 
-
-newGame = GameController()
-player1 = HumanPlayer('1')
-player2 = HumanPlayer('2')
-newGame.hostGame(player1)
-newGame.joinGame(player2)
-newGame.runGame()
+                self.view.displayBoard(self.game.getReadOnlyState())

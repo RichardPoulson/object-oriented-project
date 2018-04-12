@@ -1,34 +1,55 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Defines an encapsulated "game state".  Will be used in the AlphaBetaSearch
-algorithm.
-
-https://docs.python.org/3/reference/datamodel.html#objects-values-and-types
+Defines GameState, which defines the state of a checkers game.
 """
-from copy import deepcopy
+
+"""
+    for AIplayer, on update(), possibly get newGameBoard, then gamestate.set()
+"""
+from copy import copy, deepcopy
 
 class GameState:
-  # Constructor
-  def __init__(self, current_player, last_move, game_board):
-    self.value_ = None # refers to a utility value for AI player.
-    self.current_player_ = current_player
-    self.last_move_ = last_move
-    self.game_board = game_board
-    self.spaces = deepcopy(self.game_board.spaces)
-    self.possible_moves = [] # possible moves that can be made
-  # allow GameState to be iterated through, elements are possible moves
-  def getValue(self):
-    return self.value_
+  def __init__(self, checkersBoard, currentPlayer, lastMove):
+    self.setCheckersBoard(checkersBoard)
+    self.setSpaces(self.getCheckersBoard().spaces)
+    self.setCurrentPlayer(currentPlayer)
+    self.setLastMove(lastMove)
+    self.possibleMoves = []
+  def setCheckersBoard(self, newCheckersBoard):
+    self.checkersBoard = newCheckersBoard
+  def getCheckersBoard(self, newCheckersBoard):
+    self.checkersBoard = newCheckersBoard
+  def setSpaces(self, spaces):
+    self.spaces = copy(spaces) # copies object instead of reference
+  def getSpaces(self):
+    return self.spaces
+  def setCurrentPlayer(self, currentPlayer):
+    self.currentPlayer = currentPlayer
+  def getCurrentPlayer(self):
+    return self.currentPlayer
+  def setLastMove(self, lastMove):
+    self.lastMove = lastMove
+  def getLastMove(self):
+    return self.lastMove
+  def addPossibleMove(self, newPossibleMove):
+    self.possibleMoves.append(newPossibleMove)
+  def getPossibleMoves(self):
+    return self.possibleMoves
+  def clone(self): # returns a clone of itself
+    gameStateClone = GameState(self.getCheckersBoard(), self.getCurrentPlayer(),
+                               self.getLastMove())
+    for eachMove in self.getPossibleMoves():
+      gameStateClone.addPossibleMove(eachMove)
+    return gameStateClone
   def __iter__(self):
-    return iter(self.possible_moves)
-  # used to determine if this MinMaxNode is == to another
-  def __eq__(self, other):
-    return (self.value == other.value)
-  # used to determine if this MinMaxNode is < another
-  def __lt__(self, other):
-    return (self.value < other.value)
-  def __getitem__(self, key):
-    for child in self:
-      if child.getValue() == key:
-        return child
+    #if(self.possibleMoves == )
+    #return iter(self.possible_moves)
+    pass
+  def getAvailableMoves(self):
+    for player in self.getCheckersBoard().observers:
+        for piece in player.getPlayerPieces():
+            # TODO: generalize moveType iteration
+            for moveType in ['moveLeft', 'moveRight', 'jumpLeft', 'jumpRight']:
+                if self.getCheckersBoard().isValidMove(player, piece.getLocation(), moveType):
+                    self.possible_moves.append((piece, moveType))
