@@ -9,6 +9,14 @@ class View:
         userInput = int(input(">"))
         return userInput
 
+    def displayLogon(self):
+        username = input("user name: ")
+        password = input("password: ")
+        return (username, password)
+
+    def displayRegister(self):
+        pass
+
     def getPlayerMove(self):
         pieceID = input("pieceID: ")
         moveType = input("moveType: ")

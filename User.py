@@ -6,3 +6,9 @@ class User():
 
     def setCommSocket(self, socket):
         self.commSocket = socket
+
+    def validateLogon(self, dbProxy, username, password):
+        if True:
+            return 1
+        else:
+            return False

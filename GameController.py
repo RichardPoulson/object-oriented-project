@@ -4,6 +4,9 @@ from HumanPlayer import *
 from Server import *
 from ClientSocket import *
 from view.View import *
+from DBProxy import *
+from DB import *
+from User import *
 
 import time
 
@@ -12,13 +15,22 @@ class GameController:
     def __init__(self):
         self.game = None
         self.view = View()
+        self.dbProxy = DBProxy(DB())
 
     def startApplication(self):
         userInput = self.view.displayStartScreen()
+
         if (userInput == 1):
-            pass
+            (username, password) = self.view.displayLogon()
+            currentUser = User()
+            if currentUser.validateLogon(self.dbProxy, username, password):
+                self.mainMenu()
+            else:
+                self.startApplication()
+
         elif (userInput == 2):
-            pass
+            self.view.displayRegister()
+
         else:
             self.view.displayStartScreen()
 
