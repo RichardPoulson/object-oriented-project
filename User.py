@@ -8,7 +8,8 @@ class User():
         self.commSocket = socket
 
     def validateLogon(self, dbProxy, username, password):
+        # if valid, set username and password and return True
         if True:
-            return 1
+            return True
         else:
             return False

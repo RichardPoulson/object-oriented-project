@@ -24,7 +24,7 @@ class GameController:
             (username, password) = self.view.displayLogon()
             currentUser = User()
             if currentUser.validateLogon(self.dbProxy, username, password):
-                self.mainMenu()
+                self.mainMenu(currentUser)
             else:
                 self.startApplication()
 
@@ -33,6 +33,9 @@ class GameController:
 
         else:
             self.view.displayStartScreen()
+
+    def mainMenu(self, currentUser):
+        pass
 
     def setGame(self, newGame):
         self.game = newGame
