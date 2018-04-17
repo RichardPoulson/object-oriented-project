@@ -17,6 +17,12 @@ class GameController:
         self.view = View()
         self.dbProxy = DBProxy(DB())
 
+    def getGame(self):
+        return self.game
+
+    def setGame(self, newGame):
+        self.game = newGame
+
     def startApplication(self):
         userInput = self.view.displayStartScreen()
 
@@ -29,16 +35,23 @@ class GameController:
                 self.startApplication()
 
         elif (userInput == 2):
-            self.view.displayRegister()
+            (username, password) = self.view.displayRegister()
+            currentUser = User()
+            if currentUser.validateRegistration(self.dbProxy, username, password):
+                self.mainMenu(currentUser)
+            else:
+                self.startApplication()
 
         else:
             self.view.displayStartScreen()
 
     def mainMenu(self, currentUser):
-        pass
-
-    def setGame(self, newGame):
-        self.game = newGame
+        userInput = self.view.displayMenu()
+        if userInput == 1: self.runLocalGame()
+        elif userInput == 2: pass
+        elif userInput == 3: pass
+        elif userInput == 4: pass
+        elif userInput == 5: return
 
     def hostGame(self, user, address, port):
         self.setGame(RemoteCheckersBoard(Server(address, port)))
@@ -84,6 +97,7 @@ class GameController:
 
     def runLocalGame(self):
         # TODO: make one of the players an AI player
+        self.setGame(CheckersBoard())
         self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
         self.game.notifyObservers()
 

@@ -13,3 +13,10 @@ class User():
             return True
         else:
             return False
+
+    def validateRegistration(self, dbProxy, username, password):
+        # if valid, set username and password and return True
+        if True:
+            return True
+        else:
+            return False

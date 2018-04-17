@@ -15,7 +15,21 @@ class View:
         return (username, password)
 
     def displayRegister(self):
-        pass
+        username = input("Select a user name: ")
+        password = input("Select your password: ")
+        return (username, password)
+
+    def displayMenu(self):
+        print('MAIN MENU')
+        print('---------')
+        print('(1) Play Against AI')
+        print('(2) Host Game')
+        print('(3) Join Game')
+        print('(4) Help')
+        print('(5) Quit')
+        print('')
+        userInput = int(input("Enter Selection> "))
+        return userInput
 
     def getPlayerMove(self):
         pieceID = input("pieceID: ")
