@@ -4,6 +4,7 @@ from DBInterface import *
 
 class DB(implements(DBInterface)):
     def __init__(self):
+        self.queryDictionary = {'ranks': 'SELECT username, wins, losses FROM users ORDER BY wins;'}
         try:
             self.connection = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='root', db='gbar')
             self.cursor = self.connection.cursor()
@@ -12,19 +13,19 @@ class DB(implements(DBInterface)):
             self.cursor = None
 
 
-    def executeInsertionQuery(self, query):
+    def executeInsertionQuery(self, queryKey):
         if (self.connection is not None) and (self.cursor is not None):
             try:
-                self.cursor.execute(query)
+                self.cursor.execute(self.queryDictionary[queryKey])
                 self.connection.commit()
             except pymysql.err.ProgrammingError:
                 pass
 
-    def executeSelectionQuery(self, query):
+    def executeSelectionQuery(self, queryKey):
         if (self.connection is not None) and (self.cursor is not None):
             results = []
             try:
-                self.cursor.execute(query)
+                self.cursor.execute(self.queryDictionary[queryKey])
 
                 data = self.cursor.fetchone()
                 while (data is not None):

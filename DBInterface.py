@@ -1,8 +1,8 @@
 from interface import Interface
 
 class DBInterface(Interface):
-    def executeInsertionQuery(self, query):
+    def executeInsertionQuery(self, queryKey):
         pass
 
-    def executeSelectionQuery(self, query):
+    def executeSelectionQuery(self, queryKey):
         pass

@@ -55,9 +55,11 @@ class GameController:
         elif userInput == 3:
             (address, port) = self.view.displayAddressPortForm('joining')
             self.joinGame(currentUser, address, port)
-        elif userInput == 4:
-            self.view.displayHelp()
+        elif userInput == 4:            
+            self.view.displayQuery(self.dbProxy.executeQuery('ranks'))
         elif userInput == 5:
+            self.view.displayHelp()
+        elif userInput == 6:
             return
 
     def hostGame(self, user, address, port):

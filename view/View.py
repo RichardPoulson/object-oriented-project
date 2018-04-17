@@ -25,8 +25,9 @@ class View:
         print('(1) Play Against AI')
         print('(2) Host Game')
         print('(3) Join Game')
-        print('(4) Help')
-        print('(5) Quit')
+        print('(4) View System Rankings')
+        print('(5) Help')
+        print('(6) Quit')
         print('')
         userInput = int(input("Enter Selection> "))
         return userInput
