@@ -31,6 +31,11 @@ class View:
         userInput = int(input("Enter Selection> "))
         return userInput
 
+    def displayAddressPortForm(self, action):
+        address = input('Enter Address for game {}: '.format(action))
+        port = int(input('Enter Port for game {}: '.format(action)))
+        return (address, port)
+
     def getPlayerMove(self):
         pieceID = input("pieceID: ")
         moveType = input("moveType: ")
@@ -42,3 +47,8 @@ class View:
 
     def displayStatus(self, statusMsg):
         print(statusMsg)
+
+    def displayHelp(self):
+        helpFile = open('../help.txt', encoding="ISO-8859-1")
+        for line in helpFile.readlines():
+            print(line)

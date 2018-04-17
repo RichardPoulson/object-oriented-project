@@ -47,11 +47,18 @@ class GameController:
 
     def mainMenu(self, currentUser):
         userInput = self.view.displayMenu()
-        if userInput == 1: self.runLocalGame()
-        elif userInput == 2: pass
-        elif userInput == 3: pass
-        elif userInput == 4: pass
-        elif userInput == 5: return
+        if userInput == 1:
+            self.runLocalGame()
+        elif userInput == 2:
+            (address, port) = self.view.displayAddressPortForm('hosting')
+            self.hostGame(currentUser, address, port)
+        elif userInput == 3:
+            (address, port) = self.view.displayAddressPortForm('joining')
+            self.joinGame(currentUser, address, port)
+        elif userInput == 4:
+            self.view.displayHelp()
+        elif userInput == 5:
+            return
 
     def hostGame(self, user, address, port):
         self.setGame(RemoteCheckersBoard(Server(address, port)))
