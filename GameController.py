@@ -63,10 +63,14 @@ class GameController:
             self.mainMenu(currentUser)
 
         elif userInput == 5:
+            self.view.displayUsage(self.dbProxy.executeSelectionQuery('playTime'))
+            self.mainMenu(currentUser)
+
+        elif userInput == 6:
             self.view.displayHelp()
             self.mainMenu(currentUser)
-            
-        elif userInput == 6:
+
+        elif userInput == 7:
             return
 
     def hostGame(self, user, address, port):

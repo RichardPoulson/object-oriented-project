@@ -4,7 +4,11 @@ from DBInterface import *
 
 class DB(implements(DBInterface)):
     def __init__(self):
-        self.queryDictionary = {'ranks': 'SELECT username, wins, losses FROM users ORDER BY wins;'}
+        self.queryDictionary = {
+            'ranks': "SELECT username, wins, losses FROM users ORDER BY wins DESC;",
+            'playTime': "SELECT 'TOTAL' AS 'user', SUM(playtime) AS 'PlayTime' from users UNION SELECT username AS 'user', playtime AS 'PlayTime' FROM users ORDER BY playtime DESC;"
+        }
+        
         try:
             self.connection = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='root', db='gbar')
             self.cursor = self.connection.cursor()

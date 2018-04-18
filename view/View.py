@@ -26,8 +26,9 @@ class View:
         print('(2) Host Game')
         print('(3) Join Game')
         print('(4) View System Rankings')
-        print('(5) Help')
-        print('(6) Quit')
+        print('(5) View System Usage')
+        print('(6) Help')
+        print('(7) Quit')
         print('')
         userInput = int(input("Enter Selection> "))
         return userInput
@@ -59,3 +60,11 @@ class View:
         print("------------------")
         for ranking in ranks:
             print("{}, {}, {}".format(ranking[0], ranking[1], ranking[2]))
+        print()
+
+    def displayUsage(self, playTimes):
+        print("User, Play Time")
+        print("------------------")
+        for playtime in playTimes:
+            print("{}, {}".format(playtime[0], playtime[1]))
+        print()
