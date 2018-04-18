@@ -49,16 +49,23 @@ class GameController:
         userInput = self.view.displayMenu()
         if userInput == 1:
             self.runLocalGame()
+
         elif userInput == 2:
             (address, port) = self.view.displayAddressPortForm('hosting')
             self.hostGame(currentUser, address, port)
+
         elif userInput == 3:
             (address, port) = self.view.displayAddressPortForm('joining')
             self.joinGame(currentUser, address, port)
-        elif userInput == 4:            
-            self.view.displayQuery(self.dbProxy.executeQuery('ranks'))
+
+        elif userInput == 4:
+            self.view.displayRankings(self.dbProxy.executeSelectionQuery('ranks'))
+            self.mainMenu(currentUser)
+
         elif userInput == 5:
             self.view.displayHelp()
+            self.mainMenu(currentUser)
+            
         elif userInput == 6:
             return
 

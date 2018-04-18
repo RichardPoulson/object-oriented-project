@@ -53,3 +53,9 @@ class View:
         helpFile = open('../help.txt', encoding="ISO-8859-1")
         for line in helpFile.readlines():
             print(line)
+
+    def displayRankings(self, ranks):
+        print("User, Wins, Losses")
+        print("------------------")
+        for ranking in ranks:
+            print("{}, {}, {}".format(ranking[0], ranking[1], ranking[2]))
