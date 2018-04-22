@@ -23,7 +23,7 @@ class CheckersBoard(GameObservable):
     def setWinner(self):
         if (self.observers[0].getNumPieces() <= 0):
             self.winner = self.observers[1]
-        elif (self.observers[1].getNumPieces() <= 11):
+        elif (self.observers[1].getNumPieces() <= 0):
             self.winner = self.observers[0]
         else:
             self.winner = None

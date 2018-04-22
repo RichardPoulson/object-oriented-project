@@ -49,6 +49,7 @@ class GameController:
         userInput = self.view.displayMenu()
         if userInput == 1:
             self.runLocalGame(currentUser)
+            self.mainMenu(currentUser)
 
         elif userInput == 2:
             (address, port) = self.view.displayAddressPortForm('hosting')
