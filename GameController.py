@@ -48,7 +48,7 @@ class GameController:
     def mainMenu(self, currentUser):
         userInput = self.view.displayMenu()
         if userInput == 1:
-            self.runLocalGame()
+            self.runLocalGame(currentUser)
 
         elif userInput == 2:
             (address, port) = self.view.displayAddressPortForm('hosting')
@@ -115,7 +115,7 @@ class GameController:
     def playAI(self, humanPlayer):
         pass
 
-    def runLocalGame(self):
+    def runLocalGame(self, user):
         # TODO: make one of the players an AI player
         self.setGame(CheckersBoard())
         self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
@@ -123,9 +123,14 @@ class GameController:
 
         self.view.displayBoard(self.game.getReadOnlyState())
 
-        while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
+        while(self.game.getWinner() is None):
             for player in self.game.observers:
                 pieceID, moveType = self.view.getPlayerMove()
                 player.makeMove(self.game, pieceID, moveType)
 
                 self.view.displayBoard(self.game.getReadOnlyState())
+
+        if (type(self.game.getWinner()) == HumanPlayer):
+            self.dbProxy.executeInsertionQuery("UPDATE users SET wins=wins+1 WHERE username=\'{}\'".format(user.getUsername()))
+        else:
+            self.dbProxy.executeInsertionQuery("UPDATE users SET losses=losses+1 WHERE username=\'{}\'".format(user.getUsername()))
