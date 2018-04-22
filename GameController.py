@@ -131,8 +131,8 @@ class GameController:
                 self.view.displayBoard(self.game.getReadOnlyState())
 
         if (type(self.game.getWinner()) == HumanPlayer):
-            self.dbProxy.executeInsertionQuery("UPDATE users SET wins=wins+1 WHERE username=\'{}\'".format(user.getUsername()))
+            self.dbProxy.executeUpdateQuery('wins', user, 1)
         else:
-            self.dbProxy.executeInsertionQuery("UPDATE users SET losses=losses+1 WHERE username=\'{}\'".format(user.getUsername()))
+            self.dbProxy.executeUpdateQuery('losses', user, 1)
 
-        self.dbProxy.executeInsertionQuery("UPDATE users SET playtime=playtime+{} WHERE username=\'{}\'".format(self.game.getTimerTotal(), user.getUsername()))
+        self.dbProxy.executeUpdateQuery('playtime', user, self.game.getTimerTotal())
