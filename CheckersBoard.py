@@ -62,6 +62,8 @@ class CheckersBoard(GameObservable):
         for observer in self.observers:
             observer.setNumPieces()
 
+        self.startTimer()
+
     def getState(self):
         pass
 

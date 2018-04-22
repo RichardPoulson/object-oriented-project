@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+import time
 
 class GameObservable(metaclass=ABCMeta):
 
@@ -6,6 +7,12 @@ class GameObservable(metaclass=ABCMeta):
         self.observers = []
         self.moveStrategyFactory = None
         self.winner = None
+
+    def startTimer(self):
+        self.startTime = time.time()
+
+    def getTimerTotal(self):
+        return (time.time() - self.startTime)/60
 
     def addObserver(self, player):
         self.observers.append(player)

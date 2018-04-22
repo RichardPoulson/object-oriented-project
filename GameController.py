@@ -134,3 +134,5 @@ class GameController:
             self.dbProxy.executeInsertionQuery("UPDATE users SET wins=wins+1 WHERE username=\'{}\'".format(user.getUsername()))
         else:
             self.dbProxy.executeInsertionQuery("UPDATE users SET losses=losses+1 WHERE username=\'{}\'".format(user.getUsername()))
+
+        self.dbProxy.executeInsertionQuery("UPDATE users SET playtime=playtime+{} WHERE username=\'{}\'".format(self.game.getTimerTotal(), user.getUsername()))
