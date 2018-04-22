@@ -10,11 +10,23 @@ class CheckersBoard(GameObservable):
 
     def __init__(self):
         self.observers = []
+        self.winner = None
         self.maxRows = 7
         self.maxCols = 7
         self.spaces = [[Space(locationJ=j, locationI=i) for i in range(0, self.maxCols+1)] for j in range(0, self.maxRows+1)]
         self.moveStrategyFactory = MoveStrategyFactory('matrix')
         self.moveStrategy = None
+
+    def getWinner(self):
+        return self.winner
+
+    def setWinner(self):
+        if (self.observers[0].getNumPieces() <= 0):
+            return 1
+        elif (self.observers[1].getNumPieces() <= 0):
+            return 0
+        else:
+            return None
 
     def getMoveStrategy(self):
         return self.moveStrategy
@@ -112,6 +124,7 @@ class CheckersBoard(GameObservable):
             print('invalid move')
 
         self.notifyObservers()
+        self.setWinner()
 
         return currentLocation
 
