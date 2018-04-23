@@ -26,30 +26,30 @@ from copy import deepcopy # shallow or deep copy
 from AlphaBetaNode import AlphaBetaNode as Node
 
 class AlphaBetaSeach: # returns an Action
-  def __init__(self, checkersBoard, gameHeuristic):
-    # reference for calling CheckersBoard methods
-    self.checkersBoard = deepcopy(checkersBoard)
-    # responsible for assigning a heuristic value to GameStates
-    self.gameHeuristic = gameHeuristic
-  def search(self, state, max_num_moves):
-    initial_num_moves = 0
-    initialNode = Node(None, state) # encapsulate GameState inside AlphaBetaNode
-    # Find the move that will result in the highest value (be the most
-    # beneficial to the AI player)
-    highest_value = self.maxValue(initialNode, initial_num_moves, max_num_moves)
-    return initialNode[highest_value] # get child node value that matches key
-  def maxValue(self, node, moves_so_far, max_num_moves):
-    if (moves_so_far == max_num_moves):
-      # get utility value for this state
-      return self.gameHeuristic.getUtilityValue(node.getValue())
-    current_value = -maxsize - 1 # lowest possible value
-    # current_alpha = copy(alpha) # make a copy so it doesn't reference original
-    # current_num_moves = copy(moves_so_far) # ""
-    for following_state in state: # for every possible action/move in this state:
-      # find the move with the lowest value, since this would be the opposing
-      # player's best move
-      temp_value = self.minValue(following_state, alpha, beta, moves_so_far, max_num_moves)
-      # out of all the possible states made by the opposing player's moves,
+    def __init__(self, checkersBoard, gameHeuristic):
+        # reference for calling CheckersBoard methods
+        self.checkersBoard = deepcopy(checkersBoard)
+        # responsible for assigning a heuristic value to GameStates
+        self.gameHeuristic = gameHeuristic
+    def search(self, state, max_num_moves):
+        initial_num_moves = 0
+        initialNode = Node(None, state) # encapsulate GameState inside AlphaBetaNode
+        # Find the move that will result in the highest value (be the most
+        # beneficial to the AI player)
+        highest_value = self.maxValue(initialNode, initial_num_moves, max_num_moves)
+        return initialNode[highest_value] # get child node value that matches key
+    def maxValue(self, node, moves_so_far, max_num_moves):
+        if (moves_so_far == max_num_moves):
+            # get utility value for this state
+            return self.gameHeuristic.getUtilityValue(node.getValue())
+        current_value = -maxsize - 1 # lowest possible value
+        # current_alpha = copy(alpha) # make a copy so it doesn't reference original
+        # current_num_moves = copy(moves_so_far) # ""
+        for following_state in state: # for every possible action/move in this state:
+            # find the move with the lowest value, since this would be the opposing
+            # player's best move
+            temp_value = self.minValue(following_state, alpha, beta, moves_so_far, max_num_moves)
+        # out of all the possible states made by the opposing player's moves,
       # choose the one with the highest value, since this would benefit the
       # computer player
       current_value = max(current_value, temp_value)

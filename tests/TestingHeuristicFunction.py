@@ -4,12 +4,14 @@ the CheckersHeuristic class.  Will place Player's pieces in
 different layouts, and call the CheckersHeuristic getUtility
 function
 '''
-
-from GameController import GameController
-from HumanPlayer import HumanPlayer
-from CheckersBoard import CheckersBoard
-from CheckersHeuristic import CheckersHeuristic
-from CheckersPiece import CheckersPiece
+import sys
+sys.path.append('../')
+from GameObservable import *
+from GameController import *
+from HumanPlayer import *
+from CheckersBoard import *
+from CheckersHeuristic import *
+from CheckersPiece import *
 
 #===  HELPER METHODS  ======================================
 
