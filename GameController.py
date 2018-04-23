@@ -87,7 +87,7 @@ class GameController:
     def joinGame(self, user, address, port):
         user.commSocket = ClientSocket(address, port)
         while True:
-            pieceID, moveType = self.view.getPlayerMove()
+            pieceID, moveType = self.view.getPlayerMove('HumanPlayer')
             user.commSocket.sendCommand(('joiningUser', pieceID, moveType))
 
     def runRemoteGame(self, user):
@@ -95,7 +95,7 @@ class GameController:
         self.game.broadcastState()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
-            pieceID, moveType = self.view.getPlayerMove()
+            pieceID, moveType = self.view.getPlayerMove('HumanPlayer')
             user.commSocket.sendCommand(('hostingUser', pieceID, moveType))
 
             while (self.game.getServer().getNumberCommandsInQueue('hostingUser') < 1):
