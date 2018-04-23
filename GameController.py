@@ -1,6 +1,7 @@
 from CheckersBoard import *
 from RemoteCheckersBoard import *
 from HumanPlayer import *
+from ComputerPlayer import *
 from Server import *
 from ClientSocket import *
 from view.View import *
@@ -119,6 +120,7 @@ class GameController:
     def runLocalGame(self, user):
         # TODO: make one of the players an AI player
         self.setGame(CheckersBoard())
+        #self.game.initializeGameBoard(HumanPlayer(1), ComputerPlayer(playerID=2, aiStrategy=None))
         self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
         self.game.notifyObservers()
 
@@ -126,7 +128,7 @@ class GameController:
 
         while(self.game.getWinner() is None):
             for player in self.game.observers:
-                pieceID, moveType = self.view.getPlayerMove()
+                pieceID, moveType = self.view.getPlayerMove(player.__class__.__name__)
                 player.makeMove(self.game, pieceID, moveType)
 
                 self.view.displayBoard(self.game.getReadOnlyState())
