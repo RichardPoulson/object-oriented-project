@@ -9,5 +9,5 @@ from abc import ABCMeta, abstractmethod
 
 class GameHeuristic(metaclass=ABCMeta):
   @abstractmethod
-  def getUtilityValue(self, GameState):
+  def getUtilityValue(self, checkers_board):
     pass

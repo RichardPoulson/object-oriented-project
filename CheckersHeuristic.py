@@ -18,9 +18,9 @@ class CheckersHeuristic(GameHeuristic):
     self.computerPlayer = newComputerPlayer
   def getComputerPlayer(self):
     return self.computerPlayer
-  def getUtilityValue(self, checkersBoard):
+  def getUtilityValue(self, checkers_board):
     utilityValue = 0
-    for eachPlayer in self.checkersBoard.observers:
+    for eachPlayer in checkers_board.observers:
       if (eachPlayer == self.computerPlayer):
         utilityValue += eachPlayer.getNumPieces()
       else:
