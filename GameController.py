@@ -1,6 +1,7 @@
 from CheckersBoard import *
 from RemoteCheckersBoard import *
 from HumanPlayer import *
+from ComputerPlayer import *
 from Server import *
 from ClientSocket import *
 from view.View import *
@@ -86,7 +87,7 @@ class GameController:
     def joinGame(self, user, address, port):
         user.commSocket = ClientSocket(address, port)
         while True:
-            pieceID, moveType = self.view.getPlayerMove()
+            pieceID, moveType = self.view.getPlayerMove('HumanPlayer')
             user.commSocket.sendCommand(('joiningUser', pieceID, moveType))
 
     def runRemoteGame(self, user):
@@ -94,7 +95,7 @@ class GameController:
         self.game.broadcastState()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
-            pieceID, moveType = self.view.getPlayerMove()
+            pieceID, moveType = self.view.getPlayerMove('HumanPlayer')
             user.commSocket.sendCommand(('hostingUser', pieceID, moveType))
 
             while (self.game.getServer().getNumberCommandsInQueue('hostingUser') < 1):
@@ -119,6 +120,7 @@ class GameController:
     def runLocalGame(self, user):
         # TODO: make one of the players an AI player
         self.setGame(CheckersBoard())
+        #self.game.initializeGameBoard(HumanPlayer(1), ComputerPlayer(playerID=2, aiStrategy=None))
         self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
         self.game.notifyObservers()
 
@@ -126,7 +128,7 @@ class GameController:
 
         while(self.game.getWinner() is None):
             for player in self.game.observers:
-                pieceID, moveType = self.view.getPlayerMove()
+                pieceID, moveType = self.view.getPlayerMove(player.__class__.__name__)
                 player.makeMove(self.game, pieceID, moveType)
 
                 self.view.displayBoard(self.game.getReadOnlyState())

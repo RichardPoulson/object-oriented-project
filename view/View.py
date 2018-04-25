@@ -38,14 +38,19 @@ class View:
         port = int(input('Enter Port for game {}: '.format(action)))
         return (address, port)
 
-    def getPlayerMove(self):
-        pieceID = input("pieceID: ")
-        moveType = input("moveType: ")
+    def getPlayerMove(self, playerType):
+        if (playerType == 'HumanPlayer'):
+            pieceID = input("pieceID: ")
+            moveType = input("moveType: ")
+        elif (playerType == 'ComputerPlayer'):
+            pieceID = None
+            moveType = None
         return (pieceID, moveType)
 
     def displayBoard(self, readOnlyBoard):
         for row in readOnlyBoard:
             print(row)
+        print()
 
     def displayStatus(self, statusMsg):
         print(statusMsg)

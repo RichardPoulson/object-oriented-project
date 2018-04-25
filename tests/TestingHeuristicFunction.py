@@ -6,6 +6,7 @@ function
 '''
 import sys
 sys.path.append('../')
+
 from GameController import GameController
 from HumanPlayer import HumanPlayer
 from CheckersBoard import CheckersBoard
@@ -37,6 +38,7 @@ addPiece('X00', player1, (0, 0), newGame.game)
 addPiece('X01', player1, (1, 1), newGame.game)
 newGame.game.printBoard()
 print("Utility value =", heuristicFunction.getUtilityValue(newGame.game))
+
 available_moves = newGame.game.getAvailableMoves()
 for piece, move_type in available_moves:
     if piece.getOwner() == player1:
