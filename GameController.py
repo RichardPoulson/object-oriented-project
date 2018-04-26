@@ -87,6 +87,7 @@ class GameController:
     def joinGame(self, user, address, port):
         user.commSocket = ClientSocket(address, port)
         while True:
+            time.sleep(0.5)
             pieceID, moveType = self.view.getPlayerMove('HumanPlayer')
             user.commSocket.sendCommand(('joiningUser', pieceID, moveType))
 
@@ -95,6 +96,7 @@ class GameController:
         self.game.broadcastState()
 
         while(max(self.game.observers[0].getNumPieces(), self.game.observers[1].getNumPieces()) > 0):
+            time.sleep(0.5)
             pieceID, moveType = self.view.getPlayerMove('HumanPlayer')
             user.commSocket.sendCommand(('hostingUser', pieceID, moveType))
 
@@ -121,7 +123,10 @@ class GameController:
         # TODO: make one of the players an AI player
         self.setGame(CheckersBoard())
         #self.game.initializeGameBoard(HumanPlayer(1), ComputerPlayer(playerID=2, aiStrategy=None))
-        self.game.initializeGameBoard(HumanPlayer(1), HumanPlayer(2))
+        cp = ComputerPlayer(playerID=2)
+        cp.setHeuristic(self.getGame())
+        cp.setAIStrategy(self.getGame())
+        self.game.initializeGameBoard(HumanPlayer(1), cp)
         self.game.notifyObservers()
 
         self.view.displayBoard(self.game.getReadOnlyState())
