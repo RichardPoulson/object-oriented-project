@@ -15,8 +15,7 @@ class ComputerPlayer(Player):
         self.heuristic = CheckersHeuristic(game, self)
 
     def initializeAIStrategy(self):
-        self.aiStrategy = None
-        #self.aiStrategy = AlphaBetaSearch(self.heuristic.getCheckersBoard(), self.heuristic)
+        self.aiStrategy = AlphaBetaSearch(self.heuristic.getCheckersBoard(), self.heuristic)
 
     def makeMove(self, gameBoard, pieceID, moveType):
         if self.aiStrategy is not None:

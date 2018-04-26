@@ -1,7 +1,5 @@
 from GameObservable import *
-from PieceFactory import *
 from Space import *
-from PieceFactory import *
 from CheckersBoard import *
 import numpy as np
 

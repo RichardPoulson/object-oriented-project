@@ -1,7 +1,6 @@
 from GameObservable import *
-from PieceFactory import *
+from CheckersPiece import *
 from Space import *
-from PieceFactory import *
 from MoveStrategyFactory import *
 import numpy as np
 from copy import copy, deepcopy
@@ -123,7 +122,7 @@ class CheckersBoard(GameObservable):
                 ownerID = jumpedSpace.getSpaceResident().getOwner().id
                 for player in self.observers:
                     if(player.id == ownerID):
-                        player.decrementNumPieces()           
+                        player.decrementNumPieces()
                 jumpedSpace.removeSpaceResident()
 
             self.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceResident()
@@ -148,7 +147,7 @@ class CheckersBoard(GameObservable):
         for row in self.spaces:
             print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident().ID for space in row])
         print()
-    
+
     # make copies of observers/winner/spaces, references to others
     def clone(self):
         clone = CheckersBoard()
