@@ -2,6 +2,7 @@ from Player import *
 from CheckersPiece import *
 from CheckersHeuristic import *
 from AlphaBetaSearch import *
+from random import shuffle
 
 class ComputerPlayer(Player):
     def __init__(self, playerID=None):
@@ -13,15 +14,20 @@ class ComputerPlayer(Player):
     def setHeuristic(self, game):
         self.heuristic = CheckersHeuristic(game, self)
 
-    def setAIStrategy(self, game):
-        self.aiStrategy = AlphaBetaSearch(game, self.heuristic)
+    def initializeAIStrategy(self):
+        self.aiStrategy = None
+        #self.aiStrategy = AlphaBetaSearch(self.heuristic.getCheckersBoard(), self.heuristic)
 
     def makeMove(self, gameBoard, pieceID, moveType):
         if self.aiStrategy is not None:
             (pieceToMove, moveType) = self.aiStrategy.search(gameBoard, 2)
-            print(pieceToMove.ID)
         else:
-            #assign Random Move
-            pass
+            moveOptions = gameBoard.getAvailableMoves()
+            shuffle(moveOptions)
+            for piece, move in moveOptions:
+                if piece.ID.startswith('O'):
+                    pieceToMove = piece
+                    moveType = move
+                    break
 
         self.pieces[pieceToMove.ID].movePiece(gameBoard, self, moveType)

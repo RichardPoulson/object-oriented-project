@@ -120,13 +120,13 @@ class GameController:
         pass
 
     def runLocalGame(self, user):
-        # TODO: make one of the players an AI player
         self.setGame(CheckersBoard())
-        #self.game.initializeGameBoard(HumanPlayer(1), ComputerPlayer(playerID=2, aiStrategy=None))
-        cp = ComputerPlayer(playerID=2)
-        cp.setHeuristic(self.getGame())
-        cp.setAIStrategy(self.getGame())
-        self.game.initializeGameBoard(HumanPlayer(1), cp)
+
+        computerPlayer = ComputerPlayer(playerID=2)
+        computerPlayer.setHeuristic(self.getGame())
+        computerPlayer.initializeAIStrategy()
+        
+        self.game.initializeGameBoard(HumanPlayer(1), computerPlayer)
         self.game.notifyObservers()
 
         self.view.displayBoard(self.game.getReadOnlyState())
