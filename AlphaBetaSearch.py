@@ -31,15 +31,18 @@ class AlphaBetaSearch: # returns an Action
     def search(self, board, max_num_moves):
         initial_node = Node(None, board)
         highest_value = self.maxValue(initial_node, -maxsize - 1, maxsize, 0, max_num_moves)
-        return highest_value # get child node value that matches key
+        recommended_move_node = initial_node[highest_value]
+        recommended_move = recommended_move_node.getMove()
+        location_of_piece = recommended_move[0].getLocation()
+        space_of_piece = board.getSpaceByLocation(location_of_piece[0], location_of_piece[1])
+        actual_piece = space_of_piece.getSpaceResident()
+        return (actual_piece, recommended_move[1]) # get child node value that matches key
     def maxValue(self, node, alpha, beta, num_moves, max_num_moves):
         self.loadPossibleMoves(node)
         if ((num_moves == max_num_moves) or (node.hasChildren() == 0)):    # does this node not need to be evaluated?
             return_value = self.heuristic.getUtilityValue(node.getValue())
-            if(return_value != 0):
-                node.getValue().printBoard()
-                print(return_value)
-            return self.heuristic.getUtilityValue(node.getValue())
+            node.setKey(return_value)
+            return return_value
         value = -maxsize-1    # assign lowest possible value to val
         current_alpha = copy(alpha)
         for eachChild in node:
@@ -47,15 +50,14 @@ class AlphaBetaSearch: # returns an Action
             if (value >= beta):  # if this child's value is bigger than val..
                 return value  # ..Min won't choose 
             current_alpha = max(current_alpha, value)
+        node.setKey(value)
         return value
     def minValue(self, node, alpha, beta, num_moves, max_num_moves):
         self.loadPossibleMoves(node)
         if ((num_moves == max_num_moves) or (node.hasChildren() == 0)):    # does this node not need to be evaluated?
             return_value = self.heuristic.getUtilityValue(node.getValue())
-            if(return_value != 0):
-                node.getValue().printBoard()
-                print(return_value)
-            return self.heuristic.getUtilityValue(node.getValue())
+            node.setKey(return_value)
+            return return_value
         value = maxsize
         current_beta = copy(beta)
         for eachChild in node:
@@ -63,6 +65,7 @@ class AlphaBetaSearch: # returns an Action
             if (value <= alpha):
                 return value
             current_beta = min(current_beta, value)
+        node.setKey(value)
         return value
     def loadPossibleMoves(self, node):
         computer_player = self.heuristic.getComputerPlayer()
@@ -77,20 +80,6 @@ class AlphaBetaSearch: # returns an Action
                     if ((player.id) == playerID):
                         moving_piece = potential_board.spaces[location[0]][location[1]].getSpaceResident()
                         potential_board.movePlayerPiece(moving_piece, player, location, moveType)
-                        node.addChild(Node(node, potential_board, not(node.maxNode)))  
-    def movePlayerPiece(self, board, piece, player, currentLocation, moveType):
-        board.setMoveStrategy(board.moveStrategyFactory.getMoveStrategy(player.id, moveType))
-        vertical, horizontal = board.getMoveStrategy().locationChange()
-        #vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
-        if board.isValidMove(player, currentLocation, moveType):
-            if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
-                # remove opponent piece, move piece
-                jumpedSpace = board.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
-                #TODO: decrement opponent player's piececount
-                jumpedSpace.getSpaceResident().getOwner().decrementNumPieces()
-                print("jumped!")
-                jumpedSpace.removeSpaceResident()
-
-            board.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceResident()
-            board.getSpaceByLocation(currentLocation[0]+vertical, currentLocation[1]+horizontal).setSpaceResident(piece)
-            currentLocation = (currentLocation[0]+vertical, currentLocation[1]+horizontal)
+                        new_node = Node(node, potential_board, not(node.maxNode))
+                        new_node.setMove((copy(moving_piece), moveType))
+                        node.addChild(new_node)
