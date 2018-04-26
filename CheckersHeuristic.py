@@ -21,7 +21,7 @@ class CheckersHeuristic(GameHeuristic):
     def getUtilityValue(self, checkers_board):
         utilityValue = 0
         for eachPlayer in checkers_board.observers:
-            if (eachPlayer == self.computerPlayer):
+            if (eachPlayer.id == self.computerPlayer.id):
                 utilityValue += eachPlayer.getNumPieces()
             else:
                 utilityValue -= eachPlayer.getNumPieces()

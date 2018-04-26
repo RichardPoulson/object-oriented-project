@@ -4,7 +4,7 @@ from Space import *
 from PieceFactory import *
 from MoveStrategyFactory import *
 import numpy as np
-from copy import deepcopy
+from copy import copy, deepcopy
 
 class CheckersBoard(GameObservable):
 
@@ -94,7 +94,9 @@ class CheckersBoard(GameObservable):
 
             if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
-                if (jumpedSpace.getSpaceResident() is not None) and (jumpedSpace.getSpaceResident().getOwner() != player):
+                # instructions below don't quite work right for cloned boards, had to make some modifications (use id), sorry!
+                if (jumpedSpace.getSpaceResident() is not None) and (jumpedSpace.getSpaceResident().getOwner().id != player.id):
+                #if (jumpedSpace.getSpaceResident() is not None) and (jumpedSpace.getSpaceResident().getOwner() != player):
                     return True
         return False
 
@@ -116,7 +118,12 @@ class CheckersBoard(GameObservable):
                 # remove opponent piece, move piece
                 jumpedSpace = self.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
                 #TODO: decrement opponent player's piececount
-                jumpedSpace.getSpaceResident().getOwner().decrementNumPieces()
+                # instructions below don't quite work right for cloned boards, had to make some modifications (use id), sorry!
+                # jumpedSpace.getSpaceResident().getOwner().decrementNumPieces()
+                ownerID = jumpedSpace.getSpaceResident().getOwner().id
+                for player in self.observers:
+                    if(player.id == ownerID):
+                        player.decrementNumPieces()           
                 jumpedSpace.removeSpaceResident()
 
             self.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceResident()
@@ -141,3 +148,15 @@ class CheckersBoard(GameObservable):
         for row in self.spaces:
             print(['---' if (space.getSpaceResident() is None) else space.getSpaceResident().ID for space in row])
         print()
+    
+    # make copies of observers/winner/spaces, references to others
+    def clone(self):
+        clone = CheckersBoard()
+        clone.observers = deepcopy(self.observers)
+        clone.winner = deepcopy(self.winner)
+        clone.maxRows = self.maxRows
+        clone.maxCols = self.maxCols
+        clone.spaces = deepcopy(self.spaces)
+        clone.moveStrategyFactory = self.moveStrategyFactory
+        clone.moveStrategy = self.moveStrategy
+        return clone

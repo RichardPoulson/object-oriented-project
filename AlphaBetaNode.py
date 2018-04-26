@@ -14,7 +14,7 @@ from sys import maxsize # used to set bounds of node values
 class AlphaBetaNode:
     def __init__(self, parentNode, value, isMaxNode = True):
         self.parent = parentNode
-        self.isMaxNode = isMaxNode    # is this a Max node?
+        self.maxNode = isMaxNode    # is this a Max node?
         self.key = None # at first, it's unknown what the key to the data will be
         self.value = value
         # assuming system represents integers using two's complement method
@@ -22,7 +22,7 @@ class AlphaBetaNode:
         self.beta = maxsize
         self.children = []
     def getParent(self): return self.parent
-    def isMaxNode(self): return self.isMaxNode
+    def isMaxNode(self): return self.maxNode
     def setKey(self, key): self.key = key
     def getKey(self): return self.key
     def setValue(self, value): self.value = value

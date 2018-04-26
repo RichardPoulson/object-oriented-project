@@ -22,51 +22,75 @@ http://www.flyingmachinestudios.com/programming/minimax/
 """
 
 from sys import maxsize # used to set bounds of node values
-from copy import deepcopy # shallow or deep copy
+from copy import copy, deepcopy # shallow or deep copy
 from AlphaBetaNode import AlphaBetaNode as Node
 
-class AlphaBetaSeach: # returns an Action
+class AlphaBetaSearch: # returns an Action
     def __init__(self, checkers_board, game_heuristic):
         self.heuristic = game_heuristic
     def search(self, board, max_num_moves):
         initial_node = Node(None, board)
-        num_moves = 0
-        highest_value = self.maxValue(initial_node, num_moves, max_num_moves)
+        highest_value = self.maxValue(initial_node, -maxsize - 1, maxsize, 0, max_num_moves)
         return highest_value # get child node value that matches key
-    def maxValue(self, node, num_moves, max_num_moves):
-        if (num_moves == max_num_moves):    # does this node not need to be evaluated?
-            return self.heuristic.getUtilityValue(node.getValue()):
-        temp_alpha = node.getAlpha()    # the current maximum to be searched against
-        val = -maxsize-1    # assign lowest possible value to val
-        # temporary values
-        for eachChild in self.children:
-            (tmpVal, tmpCount) = eachChild.minValue(tmpAlpha, beta)  # get the
-            # value and evaluation count from eachChild
-            val = max(val, tmpVal)  # update val to the new maximum value
-            count += tmpCount  # add evaluation count of child to this count
-            if (val >= beta):  # if this child's value is bigger than val..
-                return (val, count)  # ..Min won't choose 
-            tmpAlpha = max(tmpAlpha, val)
-        self.val = val  
-        return (val, count)
-    def minValue(self, alpha, beta):
-        if (self.val != None and self.children == None):
-            return (self.val, 1)
-        elif (self.val != None and self.children != None):
-            return (self.val, 0)
-        tmpBeta = beta
-        val = maxsize
-        for eachChild in self.children:
-            (tmpVal, tmpCount) = eachChild.maxValue(alpha, tmpBeta)
-            val = min(val, tmpVal)
-            if (val <= alpha):
-                return (val, count)
-                tmpBeta = min(tmpBeta, val)
-        self.val = val 
-        return (val, count)
+    def maxValue(self, node, alpha, beta, num_moves, max_num_moves):
+        self.loadPossibleMoves(node)
+        if ((num_moves == max_num_moves) or (node.hasChildren() == 0)):    # does this node not need to be evaluated?
+            return_value = self.heuristic.getUtilityValue(node.getValue())
+            if(return_value != 0):
+                node.getValue().printBoard()
+                print(return_value)
+            return self.heuristic.getUtilityValue(node.getValue())
+        value = -maxsize-1    # assign lowest possible value to val
+        current_alpha = copy(alpha)
+        for eachChild in node:
+            value = max(value, self.minValue(eachChild, current_alpha, beta, num_moves + 1, max_num_moves))
+            if (value >= beta):  # if this child's value is bigger than val..
+                return value  # ..Min won't choose 
+            current_alpha = max(current_alpha, value)
+        return value
+    def minValue(self, node, alpha, beta, num_moves, max_num_moves):
+        self.loadPossibleMoves(node)
+        if ((num_moves == max_num_moves) or (node.hasChildren() == 0)):    # does this node not need to be evaluated?
+            return_value = self.heuristic.getUtilityValue(node.getValue())
+            if(return_value != 0):
+                node.getValue().printBoard()
+                print(return_value)
+            return self.heuristic.getUtilityValue(node.getValue())
+        value = maxsize
+        current_beta = copy(beta)
+        for eachChild in node:
+            value = min(value, self.maxValue(eachChild, alpha, current_beta, num_moves + 1, max_num_moves))
+            if (value <= alpha):
+                return value
+            current_beta = min(current_beta, value)
+        return value
     def loadPossibleMoves(self, node):
         computer_player = self.heuristic.getComputerPlayer()
         available_moves = node.getValue().getAvailableMoves()
-        for piece, move_type in available_moves:
-            if piece.getOwner() == computer_player:
-                print(move_type)
+        for piece, moveType in available_moves:
+            if( ((node.isMaxNode() == True) and (piece.getOwner().id == computer_player.id)) or
+                ((node.isMaxNode() == False) and (piece.getOwner().id != computer_player.id))):
+                playerID = piece.getOwner().id
+                location = piece.getLocation()
+                potential_board = node.getValue().clone()
+                for player in potential_board.observers:
+                    if ((player.id) == playerID):
+                        moving_piece = potential_board.spaces[location[0]][location[1]].getSpaceResident()
+                        potential_board.movePlayerPiece(moving_piece, player, location, moveType)
+                        node.addChild(Node(node, potential_board, not(node.maxNode)))  
+    def movePlayerPiece(self, board, piece, player, currentLocation, moveType):
+        board.setMoveStrategy(board.moveStrategyFactory.getMoveStrategy(player.id, moveType))
+        vertical, horizontal = board.getMoveStrategy().locationChange()
+        #vertical, horizontal = self.moveOptions[self.observers.index(player)][moveType]
+        if board.isValidMove(player, currentLocation, moveType):
+            if (moveType == 'jumpLeft' or moveType == 'jumpRight'):
+                # remove opponent piece, move piece
+                jumpedSpace = board.getSpaceByLocation(int(currentLocation[0]+vertical/2),  int(currentLocation[1]+horizontal/2))
+                #TODO: decrement opponent player's piececount
+                jumpedSpace.getSpaceResident().getOwner().decrementNumPieces()
+                print("jumped!")
+                jumpedSpace.removeSpaceResident()
+
+            board.getSpaceByLocation(currentLocation[0], currentLocation[1]).removeSpaceResident()
+            board.getSpaceByLocation(currentLocation[0]+vertical, currentLocation[1]+horizontal).setSpaceResident(piece)
+            currentLocation = (currentLocation[0]+vertical, currentLocation[1]+horizontal)
