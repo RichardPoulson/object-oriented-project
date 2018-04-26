@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
 @author: Richard Poulson
 Defines the AlphaBetaSearch (ABS) class.  ABS is given a CheckersBoard and
@@ -24,8 +25,9 @@ http://www.flyingmachinestudios.com/programming/minimax/
 from sys import maxsize # used to set bounds of node values
 from copy import copy, deepcopy # shallow or deep copy
 from AlphaBetaNode import AlphaBetaNode as Node
+from aiDecision import aiDecision
 
-class AlphaBetaSearch: # returns an Action
+class AlphaBetaSearch(aiDecision): # returns an Action
     def __init__(self, checkers_board, game_heuristic):
         self.heuristic = game_heuristic
     def search(self, board, max_num_moves):
