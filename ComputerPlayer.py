@@ -5,9 +5,10 @@ from AlphaBetaSearch import *
 from random import shuffle
 
 class ComputerPlayer(Player):
-    def __init__(self, playerID=None):
+    def __init__(self, playerID=None, diff=2):
         super(ComputerPlayer, self).__init__()
         self.id = playerID
+        self.difficulty = diff
         self.heuristic = None
         self.aiStrategy = None
 
@@ -19,7 +20,7 @@ class ComputerPlayer(Player):
 
     def makeMove(self, gameBoard, pieceID, moveType):
         if self.aiStrategy is not None:
-            (pieceToMove, moveType) = self.aiStrategy.search(gameBoard, 2)
+            (pieceToMove, moveType) = self.aiStrategy.search(gameBoard, self.difficulty)
         else:
             moveOptions = gameBoard.getAvailableMoves()
             shuffle(moveOptions)

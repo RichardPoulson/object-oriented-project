@@ -122,10 +122,12 @@ class GameController:
     def runLocalGame(self, user):
         self.setGame(CheckersBoard())
 
-        computerPlayer = ComputerPlayer(playerID=2)
+        aiDifficulty = self.view.displayAIDifficultyForm()
+
+        computerPlayer = ComputerPlayer(playerID=2, diff=aiDifficulty)
         computerPlayer.setHeuristic(self.getGame())
         computerPlayer.initializeAIStrategy()
-        
+
         self.game.initializeGameBoard(HumanPlayer(1), computerPlayer)
         self.game.notifyObservers()
 
