@@ -36,11 +36,13 @@ class DB(implements(DBInterface)):
             except pymysql.err.ProgrammingError:
                 pass
 
-    def executeSelectionQuery(self, queryKey):
+    def executeSelectionQuery(self, query):
+        if query in self.selectionQueryDictionary:
+            query = self.selectionQueryDictionary[query]
         if (self.connection is not None) and (self.cursor is not None):
             results = []
             try:
-                self.cursor.execute(self.selectionQueryDictionary[queryKey])
+                self.cursor.execute(query)
 
                 data = self.cursor.fetchone()
                 while (data is not None):
