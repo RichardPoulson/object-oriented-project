@@ -54,6 +54,9 @@ class DB(implements(DBInterface)):
 
             return results
 
+        else:
+            return [1]
+
     def executeUpdateQuery(self, queryKey, user, value):
         if (self.connection is not None) and (self.cursor is not None):
             try:
