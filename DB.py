@@ -28,10 +28,10 @@ class DB(implements(DBInterface)):
             self.cursor = None
 
 
-    def executeInsertionQuery(self, queryKey):
+    def executeInsertionQuery(self, query):
         if (self.connection is not None) and (self.cursor is not None):
             try:
-                self.cursor.execute(self.insertionQueryDictionary[queryKey])
+                self.cursor.execute(query)
                 self.connection.commit()
             except pymysql.err.ProgrammingError:
                 pass

@@ -11,8 +11,8 @@ class DBProxy(implements(DBInterface)):
     def setRealDB(self, DB):
         self.realDB = DB
 
-    def executeInsertionQuery(self, queryKey):
-        self.getRealDB().executeInsertionQuery(queryKey)
+    def executeInsertionQuery(self, query):
+        self.getRealDB().executeInsertionQuery(query)
 
     def executeSelectionQuery(self, query):
         return self.getRealDB().executeSelectionQuery(query)
