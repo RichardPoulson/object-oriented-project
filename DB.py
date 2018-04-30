@@ -28,19 +28,21 @@ class DB(implements(DBInterface)):
             self.cursor = None
 
 
-    def executeInsertionQuery(self, queryKey):
+    def executeInsertionQuery(self, query):
         if (self.connection is not None) and (self.cursor is not None):
             try:
-                self.cursor.execute(self.insertionQueryDictionary[queryKey])
+                self.cursor.execute(query)
                 self.connection.commit()
             except pymysql.err.ProgrammingError:
                 pass
 
-    def executeSelectionQuery(self, queryKey):
+    def executeSelectionQuery(self, query):
+        if query in self.selectionQueryDictionary:
+            query = self.selectionQueryDictionary[query]
         if (self.connection is not None) and (self.cursor is not None):
             results = []
             try:
-                self.cursor.execute(self.selectionQueryDictionary[queryKey])
+                self.cursor.execute(query)
 
                 data = self.cursor.fetchone()
                 while (data is not None):
@@ -51,6 +53,9 @@ class DB(implements(DBInterface)):
                 pass
 
             return results
+
+        else:
+            return [1]
 
     def executeUpdateQuery(self, queryKey, user, value):
         if (self.connection is not None) and (self.cursor is not None):

@@ -34,10 +34,8 @@ class View:
         return userInput
 
     def displayAIDifficultyForm(self):
-        diffString = input("Enter difficulty level for AI Player (easy, medium, or hard): ")
+        diffString = input("Enter difficulty level for AI Player (easy or hard): ")
         if diffString == 'easy':
-            return 0
-        elif diffString == 'medium':
             return 1
         else:
             return 2

@@ -19,9 +19,11 @@ class ComputerPlayer(Player):
         self.aiStrategy = AlphaBetaSearch(self.heuristic.getCheckersBoard(), self.heuristic)
 
     def makeMove(self, gameBoard, pieceID, moveType):
+        pieceToMove = None
+        moveType = None
         if self.aiStrategy is not None:
             (pieceToMove, moveType) = self.aiStrategy.search(gameBoard, self.difficulty)
-        else:
+        if (pieceToMove is None) or (moveType is None):
             moveOptions = gameBoard.getAvailableMoves()
             shuffle(moveOptions)
             for piece, move in moveOptions:
